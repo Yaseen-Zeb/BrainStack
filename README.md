@@ -1,5 +1,5 @@
 JavaScrict 
-    ├── JS-core/
+    ├── js-core/
      ├── 01-memory-stack-vs-heap.md
      ├── 02-execution-context.md
      ├── 03-call-stack.md
