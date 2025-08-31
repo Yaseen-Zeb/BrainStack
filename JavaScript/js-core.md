@@ -2,7 +2,8 @@
 
 ## 📑 Table of Contents
 1. **Memory: Stack vs Heap**
-2. **Execution Context**
+2. **Execution Context**3
+3. **Closure**
 
 # Memory: Stack vs Heap
 
@@ -38,13 +39,12 @@ console.log(obj1.value); // 20
 
 # Execution Context -> (Memory Allocation / Hoisting, Stack)
 
-An Execution Context is the environment in which JavaScript code is evaluated and executed.
+When the JavaScript engine scans a script file, it makes an environment called the Execution Context that handles the entire transformation and execution of the code.
 
 ## Parts of Execution Context
 
 Creation Phase
 Execution Phase
-Call Stack
 
 ### Creation Phase (Memory Allocation / Hoisting)
 
@@ -72,7 +72,7 @@ var y = 20;                // stored in stack (primitive)
 var x = { name: "Ali" };   // stored in heap (object reference)
 ```
 
-During Execution Phase the when there is sync function call it goes to **Call Stack** and make his own **Execution Context** with same proccess as above. It works on LIFO (Last In, First Out)
+During Execution Phase the when there is sync function call it goes to **Call Stack** also called **Execution Context Stack, Runtime Stack, or Machine Stack** and make his own **Execution Context (FEC)** with same proccess as above. It works on LIFO (Last In, First Out)
 
 ```js
 function one() {
@@ -89,5 +89,31 @@ two() → pushed to Call Stack of function **one**.
 two() → executes → logs "Hello", then pops out from the (CS) of function one.
 one() → pops out from the global (CS)
 Global CS is empty.
+
+
+
+# Closure
+A closure is created when a function "remembers" and can access variables from its outer scope, even after that outer function has finished executing. **Closure = Function + Lexical Environment**
+
+```js
+function outer() {
+  let count = 0;
+
+  function inner() {
+    count++;
+    console.log(count);
+  }
+
+  return inner;
+}
+
+const counter = outer(); 
+counter(); // 1
+counter(); // 2
+counter(); // 3
+```
+
+Closures exist because the returned function (inner) keeps a reference to its parent scope (outer), so variables like count remain in heap memory even after outer has finished.
+
 
 
