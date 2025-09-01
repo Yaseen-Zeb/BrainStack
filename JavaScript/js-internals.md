@@ -7,6 +7,7 @@
 3. **Closure**
 4. **Scope**
 5. **this**
+6. **Garbage Collection**
 
 
 
@@ -217,6 +218,20 @@ document.getElementById("btn").addEventListener("click", function () {
 document.getElementById("btn").addEventListener("click", () => {
   console.log(this); // window (in browsers)
 });
+```
+
+
+
+# Garbage Collection
+JavaScript has automatic garbage collection.
+You don’t manually free memory (like in C/C++). Instead, the GC finds data that is no longer reachable and clears it.
+
+## Key Concept: **Reachability**
+Reachable → If something can be accessed from the code (e.g., a variable, object, closure).
+Unreachable → If no references exist, it’s useless → Garbage Collector removes it.
+```js
+let user = { name: "Ali" }; // allocated in memory
+user = null; // old object is unreachable → GC will clean it
 ```
 
 
