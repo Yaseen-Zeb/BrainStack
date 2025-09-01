@@ -1,11 +1,14 @@
-# **JavaScript Core**
+# **JavaScript Internals/Core**
 
 ## 📑 Table of Contents
 
 1. **Memory: Stack vs Heap**
-2. **Execution Context**3
+2. **Execution Context**
 3. **Closure**
 4. **Scope**
+5. **this**
+
+
 
 # Memory: Stack vs Heap
 JavaScript manages memory in two main areas:
@@ -25,7 +28,9 @@ obj2.value = 20;
 console.log(obj1.value); // 20
 ```
 
-# Execution Context -> (Memory Allocation / Hoisting, Stack)
+
+
+# Execution Context(Memory Allocation / Hoisting)
 When the JavaScript engine scans a script file, it makes an environment called the Execution Context that handles the entire transformation and execution of the code.
 
 ## Parts of Execution Context
@@ -69,17 +74,17 @@ two() → executes → logs "Hello", then pops out from the (CS) of function one
 one() → pops out from the global (CS)
 Global CS is empty.
 
+
+
 # Closure
 A closure is created when a function "remembers" and can access variables from its outer scope, even after that outer function has finished executing. **Closure = Function + Lexical Environment**
 ```js
 function outer() {
   let count = 0;
-
   function inner() {
     count++;
     console.log(count);
   }
-
   return inner;
 }
 const counter = outer();
@@ -88,6 +93,8 @@ counter(); // 2
 counter(); // 3
 ```
 Closures exist because the returned function (inner) keeps a reference to its parent scope (outer), so variables like count remain in heap memory even after outer has finished.
+
+
 
 # Scope
 Scope determines the visibility and accessibility of variables — i.e., where a variable can be accessed or modified
@@ -131,3 +138,88 @@ console.log(blockVar); // ❌ Error
 console.log(constVar); // ❌ Error
 console.log(varVar);   // ✅ Accessible if inside function, otherwise global
 ```
+
+
+
+# this
+this is a special keyword in JavaScript that refers to the object that is executing the current function. It provides a way for functions to access the object that "owns" or "invokes" them
+Its value is determined at call time, not at write time.
+
+## Rules
+Default Binding
+Implicit Binding
+Explicit Binding (call, apply, bind) واضح طور پر
+New Binding
+In Event Handler
+
+**Default Binding**
+When a function is called without any object context, this defaults to:
+Global object (window in browsers, global in Node.js) in non-strict mode.
+undefined in strict mode. **take a look on arrow fn** 
+```js
+function show() {
+  console.log(this);
+}
+show(); // window (in browser), undefined (in strict mode)
+```
+
+**Implicit Binding**
+When a function is called as a method of an object, this is bound to the object before the dot (.)
+```js
+const user = {
+  name: "Ali",
+  greet: function() {
+    console.log(this.name);
+  }
+};
+user.greet(); // "Ali" → `this` refers to `user`
+```
+
+**Explicit Binding**
+We can manually set the value of this using:
+call(thisArg, ...args)
+apply(thisArg, [args])
+bind(thisArg)
+```js
+function greet() {
+  console.log(this.name);
+}
+const person = { name: "Sara" };
+greet.call(person);  // "Sara"
+greet.apply(person); // "Sara"
+const boundGreet = greet.bind(person);
+boundGreet();        // "Sara"
+```
+
+**New Binding**
+When a function is called with the new keyword:
+A **new empty object** is created.
+**this** is bound to that object.
+Unless the function returns another object, the newly created object is returned.
+```js
+function Person(name) {
+  this.name = name;
+}
+const p1 = new Person("Ahmed");
+console.log(p1.name); // "Ahmed"
+```
+
+**Event Handler this**
+this in a Regular Function Event Handler
+When you attach an event handler as a normal function (not arrow),
+this inside the handler refers to the DOM element that received the event.
+```js
+document.getElementById("btn").addEventListener("click", function () {
+  console.log(this); // <button id="btn">Click me</button>
+});
+//Arrow functions do not have their own this.
+// Instead, they use the lexical this (the value of this where the function was defined).
+document.getElementById("btn").addEventListener("click", () => {
+  console.log(this); // window (in browsers)
+});
+```
+
+
+
+
+
