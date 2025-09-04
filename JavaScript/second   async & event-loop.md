@@ -31,6 +31,13 @@ Note: In Node.js there’s no “browser,” but a similar system exists (libuv)
 
 
 
-
+# Microtasks vs Macrotasks
+When the browser has a callback ready, it doesn’t throw it straight onto the call stack. It first puts it into one of two queues:
+**Microtask Queue** (high priority)
+Stores callbacks from Promises (.then, .catch, .finally), queueMicrotask, await, MutationObserver, and process.nextTick (Node.js).
+The event loop execute this queue completely before moving on to the next macrotask.
+**Macrotask Queue** (normal priority)
+Stores callbacks from setTimeout, setInterval, setImmediate (Node.js), DOM events, I/O operations, network callbacks.
+The event loop picks one macrotask per tick, then execute all microtasks before rendering.
 
 
