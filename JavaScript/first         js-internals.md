@@ -4,10 +4,11 @@
 
 1. **Memory: Stack vs Heap**
 2. **Execution Context**
-3. **Closure**
-4. **Scope**
-5. **this**
-6. **Garbage Collection**
+3. **Global Object (window in Browsers, global in Node)**
+4. **Closure**
+5. **Scope**
+6. **this**
+7. **Garbage Collection**
 
 
 
@@ -78,6 +79,21 @@ two() → pushed to Call Stack of function **one**.
 two() → executes → logs "Hello", then pops out from the (CS) of function one.
 one() → pops out from the global (CS)
 Global CS is empty.
+
+
+
+
+
+# Global Object (window in Browsers, global in Node)
+The window object is the global object created by the browser whenever you open a webpage.
+
+**It represents**
+• The browser window/tab where your script is running.
+• DOM (Document Object Model) → document, getElementById, etc.
+• BOM (Browser Object Model) → location, navigator, history, etc.
+• Web APIs → fetch, setTimeout, localStorage, etc.
+• Global variables & functions → Any variable declared with var in global scope becomes a property of window.
+• In Browser → Global object = window **AND** In Node.js → Global object = global
 
 
 
