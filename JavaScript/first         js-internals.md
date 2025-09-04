@@ -11,6 +11,8 @@
 
 
 
+
+
 # Memory: Stack vs Heap
 JavaScript manages memory in two main areas:
 - **Stack** → Stores primitive values and function calls (fixed, simple data).
@@ -28,6 +30,8 @@ let obj2 = obj1;
 obj2.value = 20;
 console.log(obj1.value); // 20
 ```
+
+
 
 
 
@@ -77,6 +81,8 @@ Global CS is empty.
 
 
 
+
+
 # Closure
 A closure is created when a function "remembers" and can access variables from its outer scope, even after that outer function has finished executing. **Closure = Function + Lexical Environment**
 ```js
@@ -94,6 +100,8 @@ counter(); // 2
 counter(); // 3
 ```
 Closures exist because the returned function (inner) keeps a reference to its parent scope (outer), so variables like count remain in heap memory even after outer has finished.
+
+
 
 
 
@@ -139,6 +147,8 @@ console.log(blockVar); // ❌ Error
 console.log(constVar); // ❌ Error
 console.log(varVar);   // ✅ Accessible if inside function, otherwise global
 ```
+
+
 
 
 
@@ -219,6 +229,8 @@ document.getElementById("btn").addEventListener("click", () => {
   console.log(this); // window (in browsers)
 });
 ```
+
+
 
 
 
