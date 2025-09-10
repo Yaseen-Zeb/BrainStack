@@ -26,3 +26,15 @@ Network I/O
 • UDP
 • sockets
 is usually handled by the OS kernel, since most operating systems natively provide efficient non-blocking APIs for these.
+
+## Thread Pool
+The Thread Pool is a group of background worker threads managed by **libuv (the C library under Node.js)**.
+By default, it has **4 threads** (can be increased via UV_THREADPOOL_SIZE).
+Asynchronous tasks that cannot be handled directly by the OS kernel are assign to Thread Pool by the Main Thread.
+### What Uses the Thread Pool?
+Not everything async in Node.js uses the thread pool.
+The thread pool is used for tasks that cannot be handled directly by the OS kernel:
+• File system operations (fs.readFile, fs.writeFile)
+• Crypto operations (crypto.pbkdf2, crypto.scrypt, hashing, encryption)
+• Compression (zlib)
+• DNS lookups (dns.lookup)
