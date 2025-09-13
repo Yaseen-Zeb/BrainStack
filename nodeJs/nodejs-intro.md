@@ -3,6 +3,7 @@
 ## 📑 Table of Contents
 
 1. **History & Intro**
+2. **Where to Use Node.js**
 
 
 
@@ -26,3 +27,12 @@
 
 Node.js is therefore a JavaScript runtime built on the V8 engine, providing APIs different from browser APIs. This allows JavaScript to be used for backend development—building fast, scalable network applications and servers.
 
+
+
+
+
+# Where to Use Node.js
+- Building APIs with databases (create, read, update, delete records).
+- Real-time apps such as chat platforms.
+- Streaming services like YouTube or Netflix.
+- Server-side rendered web apps, where pages are generated on the server.
