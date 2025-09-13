@@ -4,6 +4,7 @@
 
 1. **History & Intro**
 2. **Where to Use Node.js**
+3. **Where Not to Use Node.js**
 
 
 
@@ -36,3 +37,13 @@ Node.js is therefore a JavaScript runtime built on the V8 engine, providing APIs
 - Real-time apps such as chat platforms.
 - Streaming services like YouTube or Netflix.
 - Server-side rendered web apps, where pages are generated on the server.
+
+
+
+
+
+# Where Not to Use Node.js
+Avoid using Node.js for CPU-intensive tasks such as:
+- Heavy image or video processing.
+- Large file compression or complex mathematical calculations.
+These tasks block the single thread and are better suited to technologies like Python, Java, or PHP.
