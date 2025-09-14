@@ -1,5 +1,5 @@
 // Import the built-in 'readline' module to read input from the console
-const readline = require("readline");
+const readline = require("readline"); // return an object
 
 // Create an interface to handle input (stdin) and output (stdout)
 const rl = readline.createInterface({
