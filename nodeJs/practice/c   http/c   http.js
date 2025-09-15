@@ -1,5 +1,7 @@
-// Import the built-in 'http' module to create an HTTP server
 const http = require("http"); // retuern an object
+const fs = require("fs"); // retuern an object
+
+const homePage = fs.readFileSync("./home.html");
 
 // Create an HTTP server instance
 const server = http.createServer((request, response) => {
@@ -10,12 +12,12 @@ const server = http.createServer((request, response) => {
   // <link rel="stylesheet" href="..."> or <script src="..."></script>,
   // you must also create separate routes or a static-file server to serve those files.
   // Node's core 'http' module does NOT automatically handle static files.
-  if (request.url === "/") {
+  if (request.url === "/" || request.url == "home") {
     // Set HTTP response status and headers
     // 200 → OK (successful request)
     // 'Content-Type' → tells the browser the type of content being sent
-    response.writeHead(200, { "Content-Type": "text/plain" });
-    response.end("index page");
+    response.writeHead(200, { "Content-Type": "text/html" });
+    response.end(homePage);
     return;
   }
 
