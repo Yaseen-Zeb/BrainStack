@@ -30,6 +30,10 @@ const server = http.createServer((request, response) => {
   response.end("route not found");
 });
 
-server.listen(8000, "127.0.0.1", () => {
-  console.log("Server is running on: http://127.0.0.1:8000");
+server.listen(8000, () => {
+  const { address, port } = server.address();
+// for localhost/127.0.0.1 address = ::
+// and for other ip, address = ip
+  const host = (address === '::') ? 'localhost' : address;
+  console.log(`Server is running on: http://${host}:${port}`);
 });
