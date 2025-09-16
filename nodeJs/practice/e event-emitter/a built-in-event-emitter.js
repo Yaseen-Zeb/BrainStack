@@ -4,9 +4,7 @@
 
 // This module, in particular, offers the EventEmitter class, which we'll use to handle our events.
 
-// There are alot of built-in events https://nodejs.org/en/learn/asynchronous-work/the-nodejs-event-emitter#the-nodejs-event-emitter some are as followed
-
-// http events
+// http.Server Events
 const http = require("http");
 
 const server = http.createServer((req, res) => {
@@ -29,7 +27,7 @@ server.listen(8000, () => {
   console.log(`Server is running on: http://${host}:${port}`);
 });
 
-// readline enevts
+// readline.Interface Events
 const readline = require("readline");
 
 const rl = readline.createInterface({
@@ -46,3 +44,5 @@ rl.on("line", (input) => {
 rl.on("close", () => {
   console.log("Interface closed");
 });
+
+// There are alot of built-in events https://nodejs.org/en/learn/asynchronous-work/the-nodejs-event-emitter#the-nodejs-event-emitter some are as above
