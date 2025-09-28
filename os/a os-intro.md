@@ -60,13 +60,18 @@ The primary goal of OS is to make computer systems easier for users i.e OS makes
 ### Efficiency:
 The secondary goal of OS is to allocate the system resources to various application programs as efficiently as possible.
 
-# Operating System Functions
+# Operating System Functions / Responsibilities
 Following are some of the important functions of an Operating System
-### Memory Management: 
-Memory Management is the process of managing memory. The Operating System keeps track of Memory i.e., what parts of it are in use by whom, and the OS decides which process will get the memory when and how much.
-### Processor Management:
-In a Multiprogramming environment, the OS decides which process gets the processor when and for how much time. The function is called Process Scheduling.
-### Device Management:
-An Operating system keeps track of all devices and decides which process gets the device when and for how much time.
-### File Management:
-The Operating system manages the files in an efficient way and keeps track of information, location, and uses.
+- Process Management
+- Memory Management
+- File System Management
+- Device (I/O) Management
+- Storage Management
+- Security and Protection
+- User Interface / Command Interpretation
+- Networking
+- Error Detection and Handling
+- Resource Allocation
+- System Performance Monitoring
+- Accounting / Auditing
+- Utility Services
