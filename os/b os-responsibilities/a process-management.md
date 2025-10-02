@@ -152,6 +152,43 @@ Since processes are isolated in memory for protection, IPC provides a safe way t
 - Example: Client-Server communication.
 
 
+## What is a Deadlock?
+A deadlock happens when a process is blocked forever, waiting for resources that are holding by other process.
+Example:
+Process A holds Resource 1, wants Resource 2.
+Process B holds Resource 2, wants Resource 1.
+**Both wait forever = deadlock**
+
+
+## Concurrency
+Concurrency means multiple processes or threads running at the same time.
+It doesn’t mean literally simultaneous (that’s parallelism, when you have multiple CPUs/cores).
+On a single CPU, concurrency is achieved by context switching.
+Example:
+In a web server, one thread handles user A’s request, another handles user B’s request. Both appear to run together → concurrency.
+**The Problem**
+When multiple processes/threads share resources (like variables, files, or memory), issues arise:
+Race Condition: Outcome depends on the order of execution.
+Example: Two threads update the same bank balance at the same time → final result may be wrong.
+
+
+## Synchronization
+Synchronization means controlling the order of execution of concurrent processes/threads so that shared resources are accessed safely.
+**Key Synchronization Ways:**
+**Mutex (Mutual Exclusion Lock)**
+Only one process/thread can access the resource at a time.
+Example: Lock a file before writing, unlock after done.
+**Semaphores**
+Same like mutex but here we can set counters that control the numbers of processes/threads to access the resource at a time.
+Two types:
+Binary Semaphore (same like a **mutex**, 0 or 1).
+Counting Semaphore (allow limited number of processes to access).
+
+**So**
+Concurrency = many tasks running at once (real or apparent).
+Problem = race conditions when they share resources.
+Synchronization = techniques (locks, semaphores, monitors) to prevent race conditions and ensure correctness.
+
 
 
 
