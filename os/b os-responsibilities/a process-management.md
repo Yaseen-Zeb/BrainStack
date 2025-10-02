@@ -124,6 +124,19 @@ After the fixed time, process goes back to ready queue.
 - Each queue has its own scheduling algorithm (like one queue is FCFS and another is RR).
 
 
+## Process Context Switching
+Context Switching is the process by which the CPU saves the state of a currently running process and loads the state of another process so that multiple processes can share a single CPU.
+It happens when the OS switches the CPU from one process (or thread) to another.
+### Steps in Context Switching:
+- An interrupt occurs (e.g., timer interrupt, I/O completion, system call). Scheduler decides another process should run.
+- OS saves CPU registers, program counter, etc. into the **PCB** of the current process.
+- Scheduler picks a new process from the **Ready Queue**.
+- OS loads the saved context of the chosen process from its PCB.
+- CPU starts executing the new process from where it left off.
+
+
+
+
 
 # What is Buffer
 A buffer is a temporary storage area in memory used to balance the speed difference between a fast producer (like CPU or RAM) and a slow consumer (like disk, printer, or network), or vice-versa.
