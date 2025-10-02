@@ -6,6 +6,7 @@
 2. **What is a Proccess**
 3. **What is Process Management**
 4. **What is Buffer**
+5. **System Call**
 
 
 
@@ -215,3 +216,21 @@ The part that takes data out of the buffer to process it. such as:
 - Consumer reads from the buffer at its own (usually slower) speed.
 - If the buffer is full, the producer must wait (or overwrite if allowed).
 - If the buffer is empty, the consumer must wait until the producer adds data.
+
+
+
+
+
+# System Call
+System Calls are,
+A way for programs to interact with the operating system.
+Provide the services of the operating system to the user programs.
+Only entry points into the kernel and are executed in kernel mode.
+**How do System Calls Work?**
+A system call allows a program to request services from the operating system.
+It can be written in high-level languages (C, C++, Pascal) or in assembly.
+When a program makes a system call, it switches to kernel mode.
+Then OS handles the request, performs the task (e.g., file access, process control), and returns the result.
+Without system calls, each program would need its own way to access hardware, making systems inconsistent and error-prone.
+**Types of System Calls**
+https://media.geeksforgeeks.org/wp-content/uploads/20231017212555/Types-of-System-Calls-(3)-(2).png
