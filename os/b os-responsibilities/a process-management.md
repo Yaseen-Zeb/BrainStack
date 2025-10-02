@@ -20,64 +20,108 @@ For instance/example, a web browser program can have multiple tabs, and each tab
 
 
 # What is a Proccess
-A process itself is a passive entity: The term process (Job) refers to program code that has been loaded into a computer's memory so that it can be executed by the central processing unit (CPU).
-Every process has a certain collection of data associated with it. For instance, the name of its parents, the location of the memory space that has been allotted, and security attributes like ownership rights and credentials.
+A process itself is a active entity: The term process (Job) refers to program code that has been loaded into a computer's memory so that it can be executed by the central processing unit (CPU).
+## Components of a Process:
+**Code Section (Text):** The executable code of the program.
+**Program Counter:** Keeps track of the instruction currently being executed.
+**Stack:** Holds temporary data like function parameters and local variables.
+**Data Section:** Stores global and static variables.
+**Heap:** Memory for dynamically allocated data.
 
 
 
 
 
 # What is Process Management
-An operating system (OS) runs many programs at the same time.
-Process management is the part of the OS that creates, controls, schedules, and terminates these processes, while making sure they work safely and efficiently.
+The OS manage several things listed below
+- Process Life Cycle
+- Process Scheduling
+- Process Context Switching
+- Inter-Process Communication (IPC)
+- Deadlock Handling
+- Concurrency & Synchronization
+- Resource Allocation
+- Process Protection & Security
+is called Process Management.
+
 
 ## Process Life Cycle
-- Creating, 
-- Scheduling,
-- Terminating Processes
+A process transitions through several states during its lifecycle. These states are:
+- New: The process is being created.
+- Ready: The process is waiting to be assigned to the CPU.
+- Running: The process is actively executing instructions.
+- Waiting (Blocked): The process is waiting for an event (like I/O completion).
+- Terminated: The process has finished execution.
+### Example: Opening a program (like a browser)
+**New State:**
+- A system call requests the OS to create a new process.
+- The OS loads the program’s executable code from disk into memory (RAM) (often via OS’s internal I/O buffers).
+- The OS creates a **Process Control Block (PCB)** – a special data structure in the kernel that stores information about the process:
+- - Process ID (PID)
+- - Current state (new, ready, running, waiting, terminated)
+- - Program counter (next instruction address)
+- - CPU register values
+- - Memory pointers (text, data, heap, stack segments)
+- - Open files, I/O devices
+- The OS allocates memory for the process:
+- - Text segment – program instructions.
+- - Data segment – global/static variables.
+- - Heap – dynamic memory allocation.
+- - Stack – function calls and local variables.
+- - OS sets up I/O buffers, file descriptors, and network ports if needed.
+- CPU registers like program counter and stack pointer are initialized.
+- OS assigns scheduling information (priority, time quantum).
+- The process state changes from **New → Ready**.
+**Ready State:**
+- The process’s PCB is added to the ready queue (a list of processes waiting for CPU time).
+- The scheduler chooses one process from the ready queue based on the scheduling policy (FCFS, Round Robin, Priority, etc.).
+- When the scheduler picks this process, its state changes from **Ready → Running**.
+**Running State:**
+- The CPU executes the process instructions.
+- The process can perform:
+- - Computation(حساب) (CPU-bound work).
+- - System calls (requesting OS services).
+- - I/O operations (disk, network, etc.).
+- Possible transitions:
+- - Running → Waiting: If the process requests I/O or waits for an event.
+- - Running → Ready: If its time quantum expires (in preemptive scheduling).
+- - Running → Terminated: If the process finishes execution.
+**Waiting (Blocked) State**
+- The process cannot continue until some event occurs (e.g., I/O completion, receiving data from network).
+- It is placed in the waiting queue.
+- Once the event is completed, the OS moves the process back to the ready queue **(Waiting → Ready)**.
+**Terminated State**
+- The process finishes execution (either normally or abnormally due to errors).
+- The OS releases:
+- - Allocated memory (text, data, heap, stack).
+- - Open files and I/O resources.
+- - PCB is removed from process tables.
+- - The process is no longer in the system.
 
-### Process Life Cycle
-When you open a program (like a browser):
-**Step 1: Request for Creation**
-A system call asks the OS to create a process
-The OS loads the program’s code into memory (RAM)
-**Step 2: Process Control Block (PCB)**
-Then the OS creates a PCB – a special data structure in the kernel.
-PCB stores all information needed to manage the process:
-- Process ID (PID)
-- Current state (new, ready, running, waiting, terminated)
-- Program counter (next instruction)
-- CPU register values
-- Memory pointers (code, data, stack segments)
-- Open files, I/O devices
-**Step 3: Allocate Memory & Resources**
-The OS reserves memory space:
-- Text segment: Program instructions.
-- Data segment: Global/static variables.
-- Heap: For dynamic memory allocation.
-- Stack: For function calls and local variables.
-Sets up any required resources such as I/O buffers, file descriptors, or network ports.
-**Step 4: Load Program Code**
-- The executable machine code of program is loaded from disk into the allocated memory **(via the OS’s internal I/O buffers)**
-- Program’s initial stack and heap are prepared.
-- Initial values (like environment variables, command-line arguments) are placed.
-**Step 5: Initialize Execution Context**
-CPU registers (like program counter, stack pointer) are set to starting positions.
-OS sets up scheduling info (priority, time quantum).
-The process state is set to Ready.
-**Step 6: Add to the Ready Queue**
-- The new PCB is linked into the OS’s ready queue, a list of all processes waiting for CPU time.
-- A scheduler will eventually select it to run.
-**Step 7: Dispatch**
-When the CPU scheduler picks the process, a context switch occurs:
-- The CPU loads the process’s registers and program counter from its PCB.
-- The process starts executing.
-**Step 8: Termination (Later)**
-When the process finishes or is killed:
-- OS frees memory and resources.
-- Removes the PCB from the process table.
 
-
+## Process Scheduling
+Process Scheduling is the method of deciding which process should when multiple processes are waiting for CPU or other resources.
+Since CPU is a limited resource so scheduling become necessary to achieve:
+- Efficient CPU utilization
+- Fairness (no process starves(whena process never gets CPU because others keep getting priority) forever)
+- Fast response time (important in interactive systems like typing, clicking, using apps so the users doesn’t feel a lag)
+- High throughput (should complete as many processes as possible in a given time)
+### CPU Scheduling Algorithms
+**First Come, First Serve (FCFS)**
+- Processes are executed in the order they arrive.
+- Problem: Simple, but can cause convoy effect (slow process delays all).
+**Shortest Job Next (SJN) / Shortest Job First (SJF)**
+- Process with the shortest burst time runs first
+- Problem: Starvation of long processes.
+**Priority Scheduling**
+- Process with the highest priority runs first.
+- Problem: Starvation (low-priority processes may never run).
+**Round Robin (RR)**
+Each process gets a fixed time quantum.
+After the fixed time, process goes back to ready queue.
+**Multilevel Queue Scheduling**
+- Processes are divided into queues.
+- Each queue has its own scheduling algorithm (like one queue is FCFS and another is RR).
 
 
 
