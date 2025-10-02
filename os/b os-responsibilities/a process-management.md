@@ -135,6 +135,24 @@ It happens when the OS switches the CPU from one process (or thread) to another.
 - CPU starts executing the new process from where it left off.
 
 
+## Inter-Process Communication (IPC)
+Inter-Process Communication (IPC) is a mechanism that allows processes to exchange data and synchronize their actions.
+Since processes are isolated in memory for protection, IPC provides a safe way to share information and coordinate between them.
+### Models of IPC
+**Shared Memory Model**
+- A region of memory is shared among processes.
+- Processes read/write directly to this shared space.
+- Fast (no kernel involvement after setup).
+- Needs synchronization tools (semaphores, mutexes) to avoid conflicts.
+- Example: Producer-Consumer problem using a buffer.
+**Message Passing Model**
+- Processes communicate by sending and receiving messages.
+- No shared memory → safer but slower (involves kernel).
+- Useful in distributed systems.
+- Example: Client-Server communication.
+
+
+
 
 
 
