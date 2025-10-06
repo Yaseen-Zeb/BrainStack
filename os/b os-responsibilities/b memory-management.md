@@ -122,3 +122,22 @@ Stack = 300 bytes
 Each segment is stored separately in different 3 locations.
 **Problem**
 let supposed RAM is 1600 bytes so Data and Code will load in to RAM but Stack will remain because we have 200 bytes free but Stack is 300 bytes **So external fragmentation occue here**.
+
+
+
+
+
+# Thrashing
+Thrashing happens when the CPU spends more time swapping pages (or segments) in and out of memory than actually executing the processes.
+This causes the system to become slow because most of the time is wasted on moving data between RAM and secondary memory (disk) instead of real work.
+**Optimal State**
+The optimal state is the point where the total size of running processes ≈ available RAM size.
+At this stage, both RAM and CPU utilization are at their best level — the system runs smoothly with very few page faults.
+**Why it occur**
+As we know we have limited RAM in our computers, By loading programs into RAM continously after some time (**optimal state**). After that loading more processes into RAM as its space occupied so it store the upcomming proccess in **secondry memory** and when they need to the CPU than page or segment fault will occur. The more proccesses in the secondry memory the more page faults will occur.
+Example:
+RAM = 10GB
+P1 = 2GB
+P2 = 5GB
+P3 = 3GB
+At this point the RAM and CPU are its peak and if we want to load more programs it will go to secondry memory.
