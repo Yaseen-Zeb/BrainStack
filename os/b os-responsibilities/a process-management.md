@@ -3,10 +3,9 @@
 ## 📑 Table of Contents
 
 1. **What is a Program**
-2. **What is a Proccess**
-3. **What is Process Management**
-4. **What is Buffer**
-5. **System Call**
+2. **What is Process Management**
+3. **What is Buffer**
+4. **System Call**
 
 
 
