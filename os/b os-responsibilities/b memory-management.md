@@ -5,6 +5,7 @@
 
 1. **What is Memory Management**
 2. **Memory Management Techniques (Contiguous memory management AND Non-Contiguous memory management)**
+3. **Thrashing**
 
 
 
@@ -103,3 +104,21 @@ More pages mean a larger page table, which takes up more memory and needs more m
 More pages also mean more page faults.
 **Slower Access (Performance Issue)**
 Since the function’s code or data is spread over multiple pages, the CPU may need to fetch from different memory frames, this causes extra memory accesses.
+
+
+#### Segmentation
+Segmentation divides process memory into variable-sized segments based on the logical parts of a program.
+Each segment represents a specific part, like:
+Code
+Stack
+Data
+Functions or arrays
+Each process has a **segment table** that stores the base address and length of each segment.
+**Example:**
+A program may have:
+Code = 1000 bytes
+Data = 500 bytes
+Stack = 300 bytes
+Each segment is stored separately in different 3 locations.
+**Problem**
+let supposed RAM is 1600 bytes so Data and Code will load in to RAM but Stack will remain because we have 200 bytes free but Stack is 300 bytes **So external fragmentation occue here**.
