@@ -75,3 +75,7 @@ When computers were first designed. Different CPU architectures adopted differen
 Little-endian makes arithmetic operations easier (used by Intel CPUs).
 Big-endian aligns data naturally with how humans write numbers (used by older or network systems).
 **So** Endianness mainly matters when sharing data between different systems or reading raw memory. **Modern systems use Big-endian for comunication through cables or over network(HTTP,TCP) numbers are always converted to big-endian before transmission**
+
+**Quick fact**
+1 byte = 8 bits → 2⁸ = 256 possible values.
+n bits → 2ⁿ distinct patterns.
