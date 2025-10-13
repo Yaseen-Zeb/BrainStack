@@ -1,4 +1,4 @@
-# **Binary Representation**
+# **Into**
 
 ## 📑 Table of Contents
 
