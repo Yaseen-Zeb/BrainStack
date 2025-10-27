@@ -7,6 +7,7 @@
 3. **Why different number systems exist**
 4. **Why Binary Conversion and Arithmetic Are Important**
 5. **Decimal to Binary Conversion**
+6. **Binary to Decimal Conversion**
 
 
 
@@ -60,10 +61,28 @@ Steps:
 - Find the combination of these powers whose sum equals the given number.
 - Write 1 under the powers you used and 0 under the ones you didn’t.
 ## For example
-35
+Given number is 35
 32, 16, 8, 4, 2, 1
 1   0   0  0  1  1
 ## Explanation:
 - We list powers of 2: 1, 2, 4, 8, 16, 32
 - Find the sum: 32 + 2 + 1 = 35
 - Write 1 below 32, 2, and 1 → rest get 0
+
+
+
+
+
+# Decimal to Binary Conversion
+To convert binary into decimal, we do the reverse of what we did before —
+each bit (0 or 1) represents a power of 2, and we just add up the values where there is a 1.
+Steps:
+- Write down the binary number.
+- Label each bit with its corresponding power of 2 (starting from right(0) to left(rest)).
+- Add the values where the bit is 1.
+## For example
+Given number is 100011
+100011
+(1 * 2p5) + (0 * 2p4) + (0 * 2p3) + (0 * 2p2) + (1 * 2p1) + (1 * 2p0)
+32 + 0 + 0 + 0 + 2 + 1
+35
