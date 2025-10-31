@@ -104,3 +104,46 @@ When doing binary subtraction:
 - Always start from the rightmost bit.
 - If the top bit is smaller, borrow 1 from the next bit (turns into 10 in binary).
 - Continue step by step until all bits are subtracted.
+
+
+
+
+
+# Binary Multiplication
+Binary multiplication is simpler than decimal multiplication because it only uses two digits — 0 and 1
+There’s no need to remember tables like 2×3 or 7×8, just follow a few simple rules
+```
+| Binary Operation | Decimal Equivalent | Result |
+| ---------------- | ------------------ | ------ |
+| 0 × 0            | 0 × 0 = 0          | **0**  |
+| 0 × 1            | 0 × 1 = 0          | **0**  |
+| 1 × 0            | 1 × 0 = 0          | **0**  |
+| 1 × 1            | 1 × 1 = 1          | **1**  |
+```
+## Example
+```
+      101
+   ×   11
+   --------
+      101     (101 × 1)
++   1010     (101 × 1, shifted one place to the left)
+   --------
+    1111
+```
+## Example 2
+```
+       110
+    ×  101
+    --------
+       110     (110 × 1)
++    0000      (110 × 0 → all 0s, shifted one place)
++  11000      (110 × 1, shifted two places)
+    --------
+     11110
+```
+
+## Note
+When multiplying binary numbers:
+- The only operations are 1×1=1 and 1×0=0
+- Use shifting (move one place left) for each new row
+- Then add all the partial results in binary
