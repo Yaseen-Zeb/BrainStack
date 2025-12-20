@@ -119,4 +119,32 @@ Merge-conflicts occur in resursive-merge when same file and same line are change
 there can be two senarios
 1 commit deletion/reset
 2 branch delection
-# 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# working tree or working directory
+In Git, the "working tree" (or working directory) is the physical directory on your computer's file system where you edit files. It is one of the three core areas (or "trees") that Git manages to track changes. 
+The three main areas in Git are:
+Working Tree (Working Directory): This is your current workspace, containing the actual files and directories you can see and modify with your editor. Changes here are considered "untracked" or "modified" until you explicitly tell Git to pay attention to them.
+Index (Staging Area): This is an intermediate area that acts as a "draft" for your next commit. When you use git add, changes from the working tree are moved to the index. This gives you granular control, allowing you to selectively choose which modifications will be part of the upcoming snapshot.
+HEAD (Local Repository): This is a pointer to the snapshot of your last commit on the current branch. The data here is safely stored in the .git directory. When you commit, Git takes the changes exactly as they are in the staging area and permanently stores that snapshot, updating the HEAD pointer to the new commit. 
+The standard Git workflow involves moving changes sequentially through these areas: You modify files in the working tree, then you git add them to the staging area, and finally, you git commit them to the local repository (HEAD). 
+A related but distinct concept is the git worktree command, which allows you to have multiple working directories linked to the same underlying repository. This enables you to work on different branches simultaneously without having to switch back and forth in a single directory. 
