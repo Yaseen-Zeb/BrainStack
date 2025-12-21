@@ -1,6 +1,6 @@
 # **Number System**
 
-## 📑 Table of Contents
+## Table of Contents
 
 
 1. **What is a Number System**

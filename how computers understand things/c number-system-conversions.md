@@ -1,6 +1,6 @@
 # **Number System Conversions**
 
-## 📑 Table of Contents
+## Table of Contents
 
 
 1. **Decimal to Binary Conversion**

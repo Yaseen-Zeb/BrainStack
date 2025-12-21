@@ -1,6 +1,6 @@
 # **Introduction to Operating System**
 
-## 📑 Table of Contents
+## Table of Contents
 
 1. **Intro**
 2. **Why do we need an operating system?**

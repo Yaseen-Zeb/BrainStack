@@ -1,6 +1,6 @@
 # **Node.js Internals**
 
-## 📑 Table of Contents
+## Table of Contents
 
 1. **Node.js Architecture** (**Main Thread**, **OS Kernel**, **Thread Pool**)
 

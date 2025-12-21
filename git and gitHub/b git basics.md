@@ -1,9 +1,10 @@
 # **Git Basics**
 
-## 📑 Table of Contents
+## Table of Contents
 
 
 1. **Initializing the Repository, Creating the First Commit & log**
+2. **Understanding & Creating Branches**
 
 
 
@@ -24,9 +25,10 @@ This command store the Stage Area changes in git history.
 
 ## Note
 The standard Git workflow involves moving changes sequentially through these areas:
-- You modify files in the working tree
+- You modify files in the working directory
 - Then you git add them to the staging area
-- And finally, you git commit them to the local repository (HEAD)
+- And finally, you git commit them to the local repository
+**So**: Working Directory  →  Staging Area  →  Repository
 
 ## Related things
 
@@ -40,7 +42,46 @@ Command `git status` displays the current state of your working directory and th
 ### git log
 The `git log` command is used to display the commit history of a Git repository
 #### Default Output
-Commit Hash (SHA-1 checksum): A unique identifier for the commit.
-Author: The name and email address of the person who made the commit.
-Date: The timestamp of when the commit was made.
-Commit Message: A description of the changes introduced in the commit.
+- Commit Hash (SHA-1 checksum): A unique identifier for the commit.
+- Author: The name and email address of the person who made the commit.
+- Date: The timestamp of when the commit was made.
+- Commit Message: A description of the changes made in the commit.
+
+
+
+
+
+# Understanding & Creating Branches
+## What is a Branch?
+A branch is an independent line of development.
+Think of it like:
+- A parallel copy of your project
+- Where you can work without affecting main code
+### Important
+Branches allow you to:
+- Work on new features safely
+- Fix bugs without breaking production code
+- Collaborate with other developers
+- Keep main branch clean and stable
+
+# Viewing Branches
+`git branch`
+Shows all local branches
+Current branch is marked with *
+
+# Creating a Branch
+`git branch feature-auth`
+- Creates a new branch
+- Does NOT switch to it
+
+# Switching Branches
+`git checkout feature-auth`
+OR (newer & recommended):
+`git switch feature-auth`
+
+# Create + Switch in One Command
+`git switch -c feature-auth`
+- Creates the branch & Switches to it immediately
+
+## Note 
+If we craete a new branch based on another branch then all commits will be teken/copy into the the new branch.

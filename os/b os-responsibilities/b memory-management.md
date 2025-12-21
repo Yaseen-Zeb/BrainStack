@@ -1,6 +1,6 @@
 # **Memory Management**
 
-## 📑 Table of Contents
+## Table of Contents
 
 
 1. **What is Memory Management**

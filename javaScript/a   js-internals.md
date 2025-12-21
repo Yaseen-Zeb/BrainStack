@@ -1,6 +1,6 @@
 # **JavaScript Internals/Core**
 
-## 📑 Table of Contents
+## Table of Contents
 
 1. **Memory: Stack vs Heap**
 2. **Execution Context**

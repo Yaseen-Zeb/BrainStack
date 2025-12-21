@@ -1,6 +1,6 @@
 # **Introduction to Node.js**
 
-## 📑 Table of Contents
+## Table of Contents
 
 1. **History & Intro**
 2. **Where to Use Node.js**

@@ -1,6 +1,6 @@
 # **Process Management**
 
-## 📑 Table of Contents
+## Table of Contents
 
 1. **What is a Program**
 2. **What is Process Management**

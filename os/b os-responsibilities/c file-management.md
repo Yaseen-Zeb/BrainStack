@@ -1,3 +1,3 @@
 # **File Management**
 
-## 📑 Table of Contents
+## Table of Contents

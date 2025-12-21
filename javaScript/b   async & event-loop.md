@@ -1,6 +1,6 @@
 # **Async & Event Loop**
 
-## 📑 Table of Contents
+## Table of Contents
 
 1. **Web APIs**
 2. **Microtasks vs Macrotasks(Callback Queue)**
