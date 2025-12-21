@@ -6,6 +6,7 @@
 1. **Initializing the Repository, Creating the First Commit & log**
 2. **Understanding & Creating Branches**
 3. **Merging Branches**
+4. **Deleting / Undoing Changes**
 
 
 
@@ -104,3 +105,79 @@ git switch main
 git merge feature-login 
 # Changes from feature-login are now in main
 ```
+
+
+
+
+
+# Deleting / Undoing Changes
+Git has three main areas. Deleting or undoing depends on which area you target.
+- Working Directory
+- Staging Area
+- Repository (Commits)
+
+## Deleting / Undoing from Working Directory
+What this mean is
+- File is created, modified or deleted locally
+- Git has not been told to save this change
+Now here two parts come Tracked Changes and Untracked Changes.
+
+### Tracked Changes
+The changes in the file which is committed 
+#### Undo Tracked Changes
+`git restore file.txt`
+`git restore .`
+This command undo the tracked changes to the latest commit stage permanently.
+As these undo permanently and are irreversible so first check the status
+`git status`
+
+
+### Un-Tracked Changes
+The changes which is not committed, ie creating new file/folders
+#### Undo Un-Tracked Changes
+`git clean -f file-name`
+`git clean -f`
+Permanently delete untracked files only
+`git clean -fd directory-name`
+`git clean -fd`
+Permanently delete untracked directories and files
+As these undo permanently and are irreversible so first check the things by command
+`git clean -n`
+This list what will be deleted
+
+
+
+## Deleting / Undoing from Staging Area
+What this mean is
+- Changes are ready to be committed
+- But not saved in history yet
+
+### Unstage a file
+`git restore --staged file-name.txt`
+`git restore --staged .`
+File moves back to Working Directory
+File content is not lost
+
+
+
+## Deleting / Undoing from Repository
+What this mean is changes are part of Git history
+### Safe way (Recommended)
+`git revert <commit-hash>`
+- Creates a new commit that undoes changes
+- History remains intact
+
+### Reset commit but keep files
+`git reset --soft HEAD~1`
+`git reset --soft <commit-hash>`
+Commit removed & Changes stay staged
+`git reset HEAD~1`
+`git reset <commit-hash>`
+Commit removed & Changes stay unstaged
+
+### Dangerous way (Data loss)
+`git reset --hard HEAD~1`
+`git reset --hard <commit-hash>`
+Commit deleted & File changes deleted
+
+
