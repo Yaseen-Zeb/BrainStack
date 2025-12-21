@@ -5,6 +5,7 @@
 
 1. **Initializing the Repository, Creating the First Commit & log**
 2. **Understanding & Creating Branches**
+3. **Merging Branches**
 
 
 
@@ -85,3 +86,21 @@ OR (newer & recommended):
 
 ## Note 
 If we craete a new branch based on another branch then all commits will be teken/copy into the the new branch.
+
+
+
+
+
+# Merging Branches
+Merging means combining changes from one branch into another. 
+## Simple Branch Workflow Example
+```bash 
+git switch -c feature-login
+# make changes
+git add .
+git commit -m "add login feature"
+
+git switch main
+git merge feature-login 
+# Changes from feature-login are now in main
+```
