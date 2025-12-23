@@ -162,12 +162,15 @@ File content is not lost
 
 ## Deleting / Undoing from Repository
 What this mean is changes are part of Git history
-### Safe way (Recommended)
+Now here is different parts if Repository like commits, branches, tags ect.
+
+### Commits
+#### Safe way (Recommended)
 `git revert <commit-hash>`
 - Creates a new commit that undoes changes
 - History remains intact
 
-### Reset commit but keep files
+#### Reset commit but keep files
 `git reset --soft HEAD~1`
 `git reset --soft <commit-hash>`
 Commit removed & Changes stay staged
@@ -175,9 +178,30 @@ Commit removed & Changes stay staged
 `git reset <commit-hash>`
 Commit removed & Changes stay unstaged
 
-### Dangerous way (Data loss)
+#### Dangerous way (Data loss)
 `git reset --hard HEAD~1`
 `git reset --hard <commit-hash>`
 Commit deleted & File changes deleted
+
+
+
+### Branches
+#### Safe delete
+`git branch -d branch-name`
+- Deletes the branch only if it is fully merged
+- Prevents accidental data loss
+
+#### Force delete (dangerous)
+`git branch -D branch-name`
+- Deletes the branch even if not merged
+- Commits may be lost if no other branch points to them
+
+#### Delete a Remote Branch
+`git push origin --delete branch-name`
+- Deletes branch from remote repository (GitHub/GitLab)
+- Local branch may still exist
+
+
+
 
 
