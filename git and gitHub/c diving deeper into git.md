@@ -5,6 +5,7 @@
 
 1. **Understanding the Stash**
 2. **Combining Branches**
+3. **Understanding the Tags**
 
 
 
@@ -161,6 +162,43 @@ main:    A──D──C'
 
 Cherry-Pick Multiple Commits
 `git cherry-pick commit1 commit2`
+
+
+
+
+
+# Understanding the Tags
+A Git tag is a label (name) that points to a specific commit.
+Mostly used to mark versions or releases.
+Example:
+- v1.0
+- v2.1.3
+- release-2025
+
+## Why Use Tags?
+- Mark release points
+- Easily go back to a specific version
+- Used in CI/CD, deployments
+
+## Types of Git Tags
+### Lightweight Tags
+Just a pointer to a commit, Not store extra information
+`git tag v1.0`
+No author, date, message, only tag name
+
+### Annotated Tags (Recommended)
+Stored as full objects, Includes message, author, date
+`git tag -a v1.0 -m "First stable release"`
+Best for releases, More information
+
+`git tag`
+List all Tags
+
+`git tag v1.0 <commit-hash>`
+Tag a Past Commit
+
+`git tag -d v1.0`
+Delete local tag
 
 
 
