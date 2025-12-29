@@ -70,7 +70,7 @@ Git mainly has two merge types:
 A fast-forward merge happens when:
 main:    A──B
 feature:    └──C──D
-The target(current) branch has no new commits
+If the target(current) branch has no new commits AND the source branch is ahead
 Result after merge:
 main:    A──B──C──D
 No new commit is created
