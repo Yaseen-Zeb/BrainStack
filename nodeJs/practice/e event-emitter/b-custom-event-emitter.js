@@ -10,7 +10,6 @@ emitter.emit("greet", "Yaseen");
 // More standerd way for custom function names
 
 class ChatApp extends EventEmitter {
-  // can also use module pattern import/export
   sendMessage(user, message) {
     this.emit("message", { user, message });
   }

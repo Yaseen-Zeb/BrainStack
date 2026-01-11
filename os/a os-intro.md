@@ -52,7 +52,7 @@ The operating system acts as a bridge between the hardware and the user’s appl
 
 
 # What is an Operating System?
-An Operating System is a piece of software that manages all the resources of a computer system, both hardware and software provide an environment in which the user can execute his/her programs in a convenient(آسان) and efficient manner by hiding the underlying complexity of the hardware and acting as a resource manager.
+An Operating System is a piece of software that manages all the resources of a computer system, both hardware and software provide an environment in which the user can execute his/her programs in a convenient(easy) and efficient manner by hiding the underlying complexity of the hardware and acting as a resource manager.
 ## Operating system goals
 There are two main goals of an Operating System:
 ### Convenience:

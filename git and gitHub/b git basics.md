@@ -55,11 +55,8 @@ The `git log` command is used to display the commit history of a Git repository
 
 # Understanding & Creating Branches
 ## What is a Branch?
-A branch is an independent line of development.
-Think of it like:
-- A parallel copy of your project
-- Where you can work without affecting main code
-### Important
+Branch is a movable pointer to a specific commit. It allows developers to diverge from the main line of development and work on new features, fix bugs, or experiment with ideas in an isolated environment without affecting the main or default branch.
+### Importance
 Branches allow you to:
 - Work on new features safely
 - Fix bugs without breaking production code
