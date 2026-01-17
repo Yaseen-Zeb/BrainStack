@@ -1,23 +1,22 @@
 const http = require("http"); // retuern an object
 const fs = require("fs"); // retuern an object
 
-const homePage = fs.readFileSync("./home.html");
+const homePage = fs.readFileSync("./home.html","utf-8");
 
 // Create an HTTP server instance
 const server = http.createServer((request, response) => {
-  console.log("Request received");
+  console.log("Request received", request.url);
+  
   //                          ---------------Routing-----------------
   // You can also serve an HTML file instead of plain text.
-  // But if you reference external CSS or JS files using
-  // <link rel="stylesheet" href="..."> or <script src="..."></script>,
-  // you must also create separate routes or a static-file server to serve those files.
+  // But if you reference external CSS or JS files using <link rel="stylesheet" href="..."> or <script src="..."></script>, you must also create separate routes or a static-file server to serve those files, note (browsers do it).
   // Node's core 'http' module does NOT automatically handle static files.
-  if (request.url === "/" || request.url == "home") {
+  if (request.url === "/" || request.url === "/home") {
     // Set HTTP response status and headers
     // 200 → OK (successful request)
     // 'Content-Type' → tells the browser the type of content being sent
     response.writeHead(200, { "Content-Type": "text/html" });
-    response.end(homePage);
+    response.end(homePage.replace("(dynamic)","Home")); // this is called palceholder for dynamic content in html, normally templates(EJS,PUG) are used for it but its core.
     return;
   }
 
