@@ -9,6 +9,7 @@
 5. **What is node_modules?**
 6. **Regular Dependencies vs DevDependencies**
 7. **Global vs Local Install**
+8. **Versioning (^, ~)**
 
 
 
@@ -171,3 +172,49 @@ Breaks CI/CD
 Team members may have different versions
 📌 Modern best practice:
 Install locally and use npm scripts.
+
+
+
+
+# Versioning (^, ~)
+npm uses Semantic Versioning (SemVer)
+Format:
+`MAJOR.MINOR.PATCH`
+Example: 4.18.2
+| Part  | Meaning         |
+| ----- | --------------- |
+| MAJOR | Breaking change |
+| MINOR | New features    |
+| PATCH | Bug fixes       |
+## ^ (Caret)
+`"express": "^4.18.2"`
+Means:
+Accept non-breaking updates
+Allowed:
+4.18.3 ✅
+4.19.0 ✅
+4.99.0 ✅
+Not allowed:
+5.0.0 ❌
+## ~ (Tilde)
+`"express": "~4.18.2"`
+Means:
+Accept patch updates only
+Allowed:
+4.18.3 ✅
+4.18.9 ✅
+Not allowed:
+4.19.0 ❌
+## No symbol (Exact version)
+`"express": "4.18.2"`
+Means:
+Install only this version
+## package-lock.json
+Even if you use ^ or ~:
+Exact versions are locked in package-lock.json
+Why?
+Ensures same dependency tree
+Same build on all machines
+Predictable deployments
+📌 package.json = allowed range
+📌 package-lock.json = actual installed version
