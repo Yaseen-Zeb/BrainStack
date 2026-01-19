@@ -4,6 +4,7 @@
 
 1. **What is npm?**
 2. **Why do we need npm?**
+3. **What is a package?**
 
 
 
@@ -29,3 +30,18 @@ It is:
 - One command installs libraries
 - Version control is automatic
 - Dependency management is easy
+
+
+
+
+
+# What is a package?
+## A package is:
+- a reusable piece of code
+- written by someone else (or you)
+- published on npm registry
+## Examples:
+- express → web server
+- mongoose → MongoDB
+- react → UI library
+- nodemon → auto restart server
