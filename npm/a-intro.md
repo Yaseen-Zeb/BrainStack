@@ -5,6 +5,7 @@
 1. **What is npm?**
 2. **Why do we need npm?**
 3. **What is a package?**
+4. **What is package.json?**
 
 
 
@@ -45,3 +46,21 @@ It is:
 - mongoose → MongoDB
 - react → UI library
 - nodemon → auto restart server
+
+
+
+
+
+# What is package.json?
+This is the heart of your project
+`{
+  "name": "my-app",
+  "version": "1.0.0",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}`
+It tells:
+- project name & version
+- which packages your app needs
+- scripts to run your app
