@@ -6,6 +6,7 @@
 2. **Why do we need npm?**
 3. **What is a package?**
 4. **What is package.json?**
+5. **What is node_modules?**
 
 
 
@@ -64,3 +65,15 @@ It tells:
 - project name & version
 - which packages your app needs
 - scripts to run your app
+
+
+
+
+
+# What is node_modules?
+When you run:
+`npm install express`
+npm:
+- downloads Express
+- puts it inside node_modules/
+- also installs Express’s dependencies
