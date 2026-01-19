@@ -8,6 +8,7 @@
 4. **What is package.json?**
 5. **What is node_modules?**
 6. **Regular Dependencies vs DevDependencies**
+7. **Global vs Local Install**
 
 
 
@@ -139,3 +140,34 @@ Some scripts run automatically:
 | `poststart`   | after `start`  |
 | `preinstall`  | before install |
 | `postinstall` | after install  |
+
+
+
+
+
+# Global vs Local Install
+## Local Install (default)
+`npm install express`
+Installed in:
+`node_modules/express`
+- Package is scoped to one project
+- Version is controlled per project
+- Prevents conflicts between apps
+Best for:
+libraries (express, mongoose)
+app dependencies
+## Global Install
+`npm install -g nodemon`
+Installed in:
+system npm directory
+accessible from any folder
+Best for:
+CLI tools (nodemon, pm2, vite, npm)
+## Why not install everything globally?
+❌ Problems:
+Version conflicts
+Hard to reproduce environment
+Breaks CI/CD
+Team members may have different versions
+📌 Modern best practice:
+Install locally and use npm scripts.
