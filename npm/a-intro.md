@@ -7,6 +7,7 @@
 3. **What is a package?**
 4. **What is package.json?**
 5. **What is node_modules?**
+6. **Regular Dependencies vs DevDependencies**
 
 
 
@@ -77,3 +78,64 @@ npm:
 - downloads Express
 - puts it inside node_modules/
 - also installs Express’s dependencies
+
+
+
+
+
+# Dependencies vs DevDependencies
+## Dependencies
+Used in production
+`npm install express`
+Saved in:
+`"dependencies":...`
+## DevDependencies
+Used only in development
+`npm install nodemon --save-dev`
+Saved in:
+`"devDependencies":...`
+
+
+
+
+
+# npm scripts
+npm scripts are shortcuts defined in package.json to run commands in a controlled, cross-platform way.
+Instead of typing long commands:
+node --watch index.js --env=dev
+You write:
+`
+"scripts": {
+  "dev": "node index.js"
+}
+`
+And run:
+`npm run dev`
+
+Inside package.json:
+`
+"scripts": {
+  "start": "node index.js",
+  "dev": "nodemon index.js"
+}
+`
+## Why npm scripts exist
+### Abstraction
+- Hide complex commands
+- One simple name → many operations
+### Consistency
+- Everyone on the team runs the same command
+- No “it works on my machine” problem
+### Environment control
+- npm scripts automatically:
+- add node_modules/.bin to PATH
+- work same on Windows, Linux, macOS
+## Special scripts (auto-run)
+Some scripts run automatically:
+| Script        | When it runs   |
+| ------------- | -------------- |
+| `start`       | `npm start`    |
+| `prestart`    | before `start` |
+| `poststart`   | after `start`  |
+| `preinstall`  | before install |
+| `postinstall` | after install  |
