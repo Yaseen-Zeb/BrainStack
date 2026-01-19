@@ -26,6 +26,12 @@ Network I/O
 • UDP
 • sockets
 is usually handled by the OS kernel, since most operating systems natively provide efficient non-blocking APIs for these.
+### libuv is the bridge
+It connects Node.js to the OS kernel.
+What libuv does:
+✔️ Registers socket events with the OS
+✔️ Waits for OS to notify when data is ready
+✔️ Pushes the callback to the Node event loop
 
 ## Thread Pool
 The Thread Pool is a group of background worker threads managed by **libuv (the C library under Node.js)**.
@@ -37,11 +43,20 @@ The thread pool is used for tasks that cannot be handled directly by the OS kern
 • File system operations (fs.readFile, fs.writeFile)
 • Crypto operations (crypto.pbkdf2, crypto.scrypt, hashing, encryption)
 • Compression (zlib)
-• DNS lookups (dns.lookup)
+• DNS lookups (dns.lookup).
+
+## Event loop gets callbacks only from libuv
+The event loop does not directly talk to the OS or the thread pool.
+- Main thread (JS) talks to libuv;
+- libuv talks to the OS or thread pool;
+- The OS or thread pool notifies libuv;
+- libuv pushes the callback to the event loop; 
+- Then the event loop runs it on the main thread.
+
 
 ## Note:-
 When an asynchronous task is assigned (like file read/write, timers, or network calls), it has two parts:
-• The asynchronous operation itself → handled outside the main thread (by the OS, the libuv thread pool, or kernel).
+• The asynchronous operation itself → handled outside the main thread (by the OS(kernel), the libuv thread pool).
 • The callback (synchronous JS code) → once the operation finishes, the callback is placed into the event loop queue, and then executed on the main thread’s call stack.
 **So**
 Async work (waiting, reading, writing, networking) → done in the background by the assignee (OS, the libuv thread pool, or kernel).
