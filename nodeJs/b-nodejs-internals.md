@@ -61,3 +61,10 @@ When an asynchronous task is assigned (like file read/write, timers, or network 
 **So**
 Async work (waiting, reading, writing, networking) → done in the background by the assignee (OS, the libuv thread pool, or kernel).
 Sync work (your callback code logic) → always runs on the main thread’s call stack.
+
+
+------------------------------- Pending Understanings ------------------------
+# Pending Understanings
+Event loop runs (4)phase callbacks → then nextTick → then microtasks → repeat.
+Browser vs Node event loop difference
+Real interview questions
