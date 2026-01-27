@@ -4,12 +4,13 @@
 
 1. **What is npm?**
 2. **Why do we need npm?**
-3. **What is a package?**
-4. **What is package.json?**
-5. **What is node_modules?**
-6. **Regular Dependencies vs DevDependencies**
-7. **Global vs Local Install**
-8. **Versioning (^, ~)**
+3. **Relaion b/w Node and npm**
+4. **What is a package?**
+5. **What is package.json?**
+6. **What is node_modules?**
+7. **Regular Dependencies vs DevDependencies**
+8. **Global vs Local Install**
+9. **Versioning (^, ~)**
 
 
 
@@ -35,6 +36,19 @@ It is:
 - One command installs libraries
 - Version control is automatic
 - Dependency management is easy
+
+
+
+
+
+# Relaion b/w Node and npm
+Node’s goal is to run JS code, not download
+And npm itself is JS code.
+So this happens:
+`node → runs npm`
+`npm → downloads packages`
+No Node → no npm (besause how npm will be run then).
+That why we first inatall node before npm or combinedly with npm.
 
 
 
