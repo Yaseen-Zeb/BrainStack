@@ -65,6 +65,6 @@ Sync work (your callback code logic) → always runs on the main thread’s call
 
 ------------------------------- Pending Understanings ------------------------
 # Pending Understanings
-Event loop runs (4)phase callbacks → then nextTick → then microtasks → repeat.
+Event loop runs (4)phase callbacks → then nextTick → then microtasks → repeat. -> https://www.youtube.com/watch?v=ol56smloW2Q
 Browser vs Node event loop difference
 Real interview questions
