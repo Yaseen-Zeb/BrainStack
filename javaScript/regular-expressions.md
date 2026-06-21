@@ -5,6 +5,7 @@
 1. **Regex Intro**
 2. **Exact match**
 3. **Character Classes**
+4. **Quantifiers**
 
 
 
@@ -128,4 +129,99 @@ console.log(regex.test("123")); // true
 console.log(regex.test("_")); // true
 console.log(regex.test(" ")); // false
 ```
+
+
+
+
+
+# Quantifiers
+Quantifiers specify how many times a character, character class, or group can occur in a regex.
+## Common Quantifiers:
+| Quantifier | Meaning                    |
+| ---------- | -------------------------- |
+| `*`        | Zero or more               |
+| `+`        | One or more                |
+| `?`        | Zero or one (optional)     |
+| `{n}`      | Exactly n times            |
+| `{n,}`     | n or more times            |
+| `{n,m}`    | Between n and m times (inclusive) |
+
+## * (Zero or More)
+Matches the preceding element zero or more times.
+### Examples
+```javascript
+const regex = /a*/;
+console.log(regex.test("aaa")); // true
+console.log(regex.test("a")); // true
+console.log(regex.test("")); // true
+```
+## + (One or More)
+Matches the preceding element one or more times.
+### Examples
+```javascript
+const regex = /a+/;
+console.log(regex.test("aaa")); // true
+console.log(regex.test("a")); // true
+console.log(regex.test("")); // false
+```
+
+## ? (Zero or One)
+Matches the preceding element zero or one time (making it optional).
+### Examples
+```javascript
+const regex = /colou?r/;
+console.log(regex.test("color")); // true
+console.log(regex.test("colour")); // true
+console.log(regex.test("clor")); // false
+```
+
+## {n} (Exactly n Times)
+Matches the preceding element exactly *n* times.
+### Examples
+```javascript
+const regex1 = /a{3}/; // matches 'aaa' exactly 3 times
+console.log(regex1.test("aaa")); // true
+console.log(regex1.test("aa")); // false
+console.log(regex1.test("aaaa")); // true - finds 'aaa' within 'aaaa'
+
+const regex2 = /\d{3}/; // matches any 3-digit number
+console.log(regex2.test("123")); // true
+console.log(regex2.test("12")); // false
+console.log(regex2.test("1234")); // true - finds '123' within '1234'
+```
+
+## {n,} (At Least n Times)
+Matches the preceding element *n* or more times.
+### Examples
+```javascript
+const regex1 = /a{3,}/; // matches 'aaa' or more
+console.log(regex1.test("aaa")); // true
+console.log(regex1.test("aaaa")); // true
+console.log(regex1.test("aa")); // false
+
+const regex2 = /\d{3,}/; // matches any 3-digit number or more
+console.log(regex2.test("123")); // true
+console.log(regex2.test("1234")); // true
+console.log(regex2.test("12")); // false
+```
+
+## {n,m} (Between n and m Times)
+Matches the preceding element between *n* and *m* times (inclusive).
+### Examples
+```javascript
+const regex1 = /a{2,4}/; // matches 'aa', 'aaa', or 'aaaa'
+console.log(regex1.test("aa")); // true
+console.log(regex1.test("aaa")); // true
+console.log(regex1.test("aaaa")); // true
+console.log(regex1.test("a")); // false
+console.log(regex1.test("aaaaa")); // true - finds 'aaaa' within 'aaaaa'
+
+const regex2 = /\d{2,4}/; // matches any 2-4 digit number
+console.log(regex2.test("12")); // true
+console.log(regex2.test("123")); // true
+console.log(regex2.test("1234")); // true
+console.log(regex2.test("12345")); // true - finds '1234' within '12345'
+console.log(regex2.test("1")); // false
+```
+
 
