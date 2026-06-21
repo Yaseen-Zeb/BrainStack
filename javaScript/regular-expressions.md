@@ -4,6 +4,7 @@
 
 1. **Regex Intro**
 2. **Exact match**
+3. **Character Classes**
 
 
 
@@ -31,4 +32,24 @@ const regex = /^hello$/;
 console.log(regex.test("hello")); // true
 console.log(regex.test("hello world")); // false
 console.log(regex.test("hi")); // false
+```
+
+
+
+
+
+# Character Classes
+A character class allows you to match any one of several characters. It is defined using square brackets `[]`.
+
+## Syntax
+```javascript
+const regex = /[abc]/; // Matches 'a' or 'b' or 'c'
+```
+
+## Example
+```javascript
+const regex = /[aeiou]/;
+console.log(regex.test("hello")); // true
+console.log(regex.test("cat")); // true
+console.log(regex.test("rhythm")); // false
 ```
