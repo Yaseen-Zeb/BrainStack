@@ -6,6 +6,8 @@
 2. **Exact match**
 3. **Character Classes**
 4. **Quantifiers**
+5. **Anchors**
+
 
 
 
@@ -224,4 +226,103 @@ console.log(regex2.test("12345")); // true - finds '1234' within '12345'
 console.log(regex2.test("1")); // false
 ```
 
+## With Character Classes
+```javascript
+const regex = /[a-z]{3}/; // matches any 3 lowercase letters
+console.log(regex.test("abc")); // true
+console.log(regex.test("123")); // false
+console.log(regex.test("Abc")); // false
+```
+
+
+
+
+
+# Anchors
+Anchors match positions within the string, not actual characters. They are used to specify where a pattern matches at a specific location in the string.
+## Common Anchors:
+| Anchor | Meaning                    |
+| ------ | -------------------------- |
+| `^`      | Start of the string        |
+| `$`      | End of the string          |
+| `\b`      | Word boundary              |
+| `\B`      | Not a word boundary        |
+
+## ^ (Start of the String)
+Matches the beginning of the string.
+### Examples:
+```javascript
+const regex = /^hello/;
+console.log(regex.test("hello world")); // true
+console.log(regex.test("world hello")); // false
+```
+## $ (End of the String)
+Matches the end of the string.
+### Examples:
+```javascript
+const regex = /world$/;
+console.log(regex.test("hello world")); // true
+console.log(regex.test("world hello")); // false
+```
+## Exact Match
+```javascript
+const regex1 = /^cat$/;
+console.log(regex1.test("cat")); // true
+console.log(regex1.test("the cat")); // false
+console.log(regex1.test("cat sat")); // false
+const regex2 = /^\d{4}$/;
+console.log(regex2.test("1234")); // true
+console.log(regex2.test("12345")); // false
+console.log(regex2.test("123a")); // false
+const regex3 = /^[A-Za-z]{3,10}$/;
+console.log(regex3.test("abc")); // true
+console.log(regex3.test("abc123")); // false
+console.log(regex3.test("abc123def")); // false
+```
+## \b (Word Boundary)
+Matches the position between a word character (\w) and a non-word character (\W).
+## Position vs Boundary
+### Position
+- A position is any location between characters in a string.
+- A position has no character. It’s just a point or location.
+- "cat" has 4 positions: |c|a|t|
+### Boundary
+- A boundary in regex means a special kind of position with a rule.
+- i.e. word boundary \b, A position is a word boundary only if:
+    - (word character) | (non-word character)
+    - OR
+    - (non-word character) | (word character)
+- So boundary = qualified position.
+### Examples:
+```javascript
+const regex1 = /\bcat\b/;
+// const regex1 = /cat/;
+console.log(regex1.test("the cat sat")); // true
+console.log(regex1.test("thetomcat sat")); // false (no boundary before 'cat')
+console.log(regex1.test("cat is here")); // true
+
+// /cat/ vs /\bcat\b/
+// /cat/ matches 'cat' anywhere in the string
+// /\bcat\b/ matches 'cat' only as a whole word
+
+// /\bcat/ checks for boundary before 'cat'
+// /cat\b/ checks for boundary after 'cat'
+// /\bcat\b/ checks for boundary before and after 'cat'
+```
+## \B (Not a Word Boundary)
+Matches the position where there is no word boundary.
+### Examples:
+```javascript
+const regex1 = /\Bcat\B/;
+console.log(regex1.test("the cat sat")); // false (non word boundary before and after 'cat')
+console.log(regex1.test("thetomcat sat")); // false (word boundary before 'cat')
+console.log(regex1.test("concatenate")); // true (non word boundary before and after 'cat')
+const regex2 = /\B\d\B/;
+console.log(regex2.test("123")); // false (non word boundary before and after '1')
+console.log(regex2.test("abc123def")); // true (non word boundary before and after '1')
+
+// /\Bcat/ checks the non word boundry only before 'cat'
+// cat\B/ checks the non word boundry only after 'cat'
+// \Bcat\B/ checks the non word boundry before and after 'cat'
+```
 
