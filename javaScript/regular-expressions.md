@@ -4,9 +4,10 @@
 
 1. **Regex Intro**
 2. **Exact match**
-3. **Character Classes**
+3. **Character Classes or Sets**
 4. **Quantifiers**
 5. **Anchors**
+6. **Flags or Modifiers**
 
 
 
@@ -39,7 +40,7 @@ console.log(regex.test("hi")); // false
 
 
 
-# Character Classes
+# Character Classes 
 A character class allows you to match any one of several characters. It is defined using square brackets `[]`.
 ## Basic Syntax
 ```javascript
@@ -326,3 +327,30 @@ console.log(regex2.test("abc123def")); // true (non word boundary before and aft
 // \Bcat\B/ checks the non word boundry before and after 'cat'
 ```
 
+
+
+
+
+# Flags
+In regex, flags (also called modifiers) change how the entire pattern behaves.
+## Common Flags:
+| Flag | Meaning                    |
+| ---- | -------------------------- |
+| `i`    | Case-insensitive           |
+| `g`    | Global (find all matches)  |
+| `m`    | Multiline                  |
+## Examples
+```javascript
+const regex = /cat/i;
+console.log(regex.test("cat")); // true
+console.log(regex.test("Cat")); // true
+console.log(regex.test("CAT")); // true
+const regex2 = /cat/g;
+console.log(regex2.test("cat cat cat")); // true
+console.log(regex2.test("cat")); // true
+const regex3 = /^cat$/gm;
+console.log(regex3.test("cat\ncat")); // true (m flag treats each line as a separate string)
+console.log(regex3.test("cat")); // false (g flag makes it global which means it will not match the whole string, m flag makes it multiline which means it will match the whole string)
+console.log(regex3.test("catcat")); // false
+// m turns regex into line-by-line matching engine instead of whole-string matching.
+```
