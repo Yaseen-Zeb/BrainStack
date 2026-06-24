@@ -8,6 +8,8 @@
 4. **Quantifiers**
 5. **Anchors**
 6. **Flags or Modifiers**
+7. **Groups, Capturing Groups, and Backreferences**
+
 
 
 
@@ -244,10 +246,10 @@ Anchors match positions within the string, not actual characters. They are used 
 ## Common Anchors:
 | Anchor | Meaning                    |
 | ------ | -------------------------- |
-| `^`      | Start of the string        |
-| `$`      | End of the string          |
-| `\b`      | Word boundary              |
-| `\B`      | Not a word boundary        |
+| `^`    | Start of the string        |
+| `$`    | End of the string          |
+| `\b`   | Word boundary              |
+| `\B`   | Not a word boundary        |
 
 ## ^ (Start of the String)
 Matches the beginning of the string.
@@ -353,4 +355,90 @@ console.log(regex3.test("cat\ncat")); // true (m flag treats each line as a sepa
 console.log(regex3.test("cat")); // false (g flag makes it global which means it will not match the whole string, m flag makes it multiline which means it will match the whole string)
 console.log(regex3.test("catcat")); // false
 // m turns regex into line-by-line matching engine instead of whole-string matching.
+```
+
+
+
+
+# Groups, Capturing Groups, and Backreferences
+## Groups
+Parentheses () are used to group parts of a regex together.
+Groups allow you to apply quantifiers to multiple characters at once.
+### Examples
+```javascript
+const regex = /(cat)+/;
+console.log(regex.test("cat")); // true
+console.log(regex.test("catcat")); // true
+console.log(regex.test("catcatcat")); // true
+```
+
+## Capturing Groups
+A capturing group stores the matched text so it can be reused later.
+### Examples:
+```javascript
+// Single Capturing Group
+const regex = /(\d+)/;
+const str = "123";
+const match = str.match(regex);
+if (match) {
+    console.log(match[0]); // "123" (the entire match)
+    console.log(match[1]); // "123" (the first group)
+}
+
+// Multiple Capturing Groups
+const regex2 = /(\d+):(\d+):(\d+)(cat)/;
+const str2 = "23:59:59cat";
+const match2 = str2.match(regex2);
+if (match2) {
+    console.log(match[0]); // "23:59:59" (the entire match)
+    console.log(match[1]); // "23" (the first group - hours)
+    console.log(match[2]); // "59" (the second group - minutes)
+    console.log(match[3]); // "59" (the third group - seconds)
+    console.log(match[4]); // "cat" (the fourth group - cat)
+}
+
+// Non-Capturing Groups
+// Sometimes you need grouping but don't want to store the match. Use (?:...) 
+const regex3 = /(?:\d+):(?:\d+):(?:\d+)/;
+const str3 = "23:59:59";
+const match3 = str3.match(regex3);
+if (match3) {
+    console.log(match3[0]); // "23:59:59" (the entire match)
+}
+
+// Named Capturing Groups
+// Instead of numbers, groups can have names.
+// Use (?<name>...) to create a named capturing group.
+const regex4 = /(?<year>\d{4})-(?<month>\d{2})-(?<day>\d{2})/;
+const str4 = "2023-12-31";
+const match4 = str4.match(regex4);
+if (match4) {
+    console.log(match4.groups.year);  // "2023"
+    console.log(match4.groups.month); // "12"
+    console.log(match.groups.day);   // "31"
+}
+```
+
+## Backreferences
+Backreferences allow you to match the same text that was captured by a previous group.
+Use \n to refer to the nth capturing group.
+### Examples:
+```javascript
+const regex = /(\w+)\s+\1/;
+const str = "hello hello";
+const match = str.match(regex);
+if (match) {
+    console.log(match[0]); // "hello hello"
+    console.log(match[1]); // "hello" (the first group)
+}
+
+// const regex2 = /(cat)(dog)/;
+const regex2 = /(cat)(dog)\1\2/;
+const str2 = "catdogcatdog";
+const match2 = str2.match(regex2);
+if (match2) {
+    console.log(match2[0]); // "catdogcatdog"
+    console.log(match2[1]); // "cat" (the first group)
+    console.log(match2[2]); // "dog" (the second group)
+}
 ```
