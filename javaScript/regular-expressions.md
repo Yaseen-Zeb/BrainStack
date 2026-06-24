@@ -9,7 +9,7 @@
 5. **Anchors**
 6. **Flags or Modifiers**
 7. **Groups, Capturing Groups, and Backreferences**
-
+8. **Alternation (OR Operator)**
 
 
 
@@ -442,3 +442,41 @@ if (match2) {
     console.log(match2[2]); // "dog" (the second group)
 }
 ```
+
+
+
+
+
+# Alternation (OR Operator)
+The alternation operator `|` allows you to match one of several possible patterns.
+## Examples
+```javascript
+// Match 'cat' or 'dog'
+const regex1 = /cat|dog/;
+console.log(regex1.test("The cat sat on the mat")); // true
+console.log(regex1.test("The dog barked")); // true
+console.log(regex1.test("The bird flew")); // false
+
+// Match 'cat' or 'dog' or 'fish'
+const regex2 = /cat|dog|fish/;
+console.log(regex2.test("I like cats")); // true
+console.log(regex2.test("I like dogs")); // true
+console.log(regex2.test("I like fish")); // true
+console.log(regex2.test("I like birds")); // false
+```
+
+## Examples with Grouping
+```javascript
+// Match 'apple' or 'orange'
+const regex3 = /gr(a|e)y/;
+console.log(regex3.test("grey")); // true
+console.log(regex3.test("gray")); // true
+console.log(regex3.test("grae")); // false
+const regex4 = /(Mr|Mrs|Ms)\.?\s\w+/;
+console.log(regex4.test("Mr. Smith")); // true
+console.log(regex4.test("Mrs Smith")); // true
+console.log(regex4.test("Ms. Smith")); // true
+console.log(regex4.test("Ms Smith")); // true
+```
+
+
