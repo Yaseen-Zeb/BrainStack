@@ -238,6 +238,22 @@ console.log(regex.test("123")); // false
 console.log(regex.test("Abc")); // false
 ```
 
+## Note
+Greedy quantifiers match as many characters as possible while still allowing the overall regex to succeed.
+Lazy quantifiers (also called non-greedy or reluctant) match as few characters as possible while still allowing the overall regex to succeed.
+To make a greedy quantifier lazy, append a ? to it.
+### Examples
+```javascript
+const greedy = /<.+>/;
+console.log(greedy.test("<h1>Hello</h1> <h2>World</h2>")); // true
+const lazy = /<.+?>/;
+console.log(lazy.test("<h1>Hello</h1> <h2>World</h2>")); // true
+const greedy2 = /'.*'/;
+console.log(greedy2.test("'ab' 'cd'")); // true
+const lazy2 = /'.*?'/;
+console.log(lazy2.test("'ab' 'cd'")); // true
+```
+
 
 
 
@@ -485,10 +501,10 @@ console.log(regex4.test("Ms Smith")); // true
 
 
 # Lookarounds
-They check whether a condition is true before or after the current position, but they do not consume characters as part of the match.
+They check whether a condition is true before or after the target position, but they do not consume characters as part of the match.
 Lookarounds are categorized into four types: positive lookahead, negative lookahead, positive lookbehind, and negative lookbehind.
 ## Positive Lookahead `(?=...)`
-Asserts that the pattern inside the lookahead `(?=...)` exists immediately after the current position, but does not include it in the match.
+Asserts that the pattern inside the lookahead `(?=...)` exists immediately after the target position, but does not include it in the match.
 ### Examples
 ```javascript
 // Match "cat" only if it is followed by "on"
@@ -497,7 +513,7 @@ console.log(regex.test("cat on the mat")); // true
 console.log(regex.test("cat in the box")); // false
 ```
 ## Negative Lookahead `(?!...)`
-Asserts that the pattern inside the lookahead `(?!...)` does NOT exist immediately after the current position.
+Asserts that the pattern inside the lookahead `(?!...)` does NOT exist immediately after the target position.
 ### Examples
 ```javascript
 // Match "cat" only if it is NOT followed by "on"
@@ -506,7 +522,7 @@ console.log(regex.test("cat in the box")); // true
 console.log(regex.test("cat on the mat")); // false
 ```
 ## Positive Lookbehind `(?<=...)`
-Asserts that the pattern inside the lookbehind `(?<=...)` exists immediately before the current position, but does not include it in the match.
+Asserts that the pattern inside the lookbehind `(?<=...)` exists immediately before the target position, but does not include it in the match.
 ### Examples
 ```javascript
 // Match "cat" only if it is preceded by "the "
@@ -515,7 +531,7 @@ console.log(regex.test("the cat sat on the mat")); // true
 console.log(regex.test("a cat sat on the mat")); // false
 ```
 ## Negative Lookbehind `(?<!...)`
-Asserts that the pattern inside the lookbehind `(?<!...)` does NOT exist immediately before the current position.
+Asserts that the pattern inside the lookbehind `(?<!...)` does NOT exist immediately before the target position.
 ### Examples
 ```javascript
 // Match "cat" only if it is NOT preceded by "the "
