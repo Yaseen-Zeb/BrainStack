@@ -127,5 +127,8 @@ So the client detects tampering, rejects the certificate, and the TLS connection
 - Long retention (days/months/forever)
 ### Example:
 - Order processing system where order can be used for analytics, audit logs, reporting, etc.
-
-
+### Important Note
+All three systems can be used in a streaming architecture because producers and consumers can work continuously.
+### The difference:
+- Message Queue: stores messages until delivery.
+- Kafka: stores events even after delivery, according to the retention policy.
