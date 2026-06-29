@@ -47,3 +47,15 @@ Now, in js Engine the **Interpreter** takes the **AST** and translates it into a
 While the interpreter gets the code running quickly, it is not very efficient for long-running, complex applications. This is where the JIT (Just-In-Time) compiler comes in. 
 To do this efficiently, JavaScript engines use an **optimization profiler**, which monitors the code as it runs. If it detects a section of code a **"hotspot"** being executed many times, it sends that specific section to the JIT compiler for optimization.
 The **JIT compiler** replaces the interpreter’s generic bytecode with highly optimized machine code that can run much faster. This optimized code is then cached, allowing subsequent executions of the same code to run at near-native speed.
+
+
+
+
+
+## Execution
+Once the bytecode is generated (either by the interpreter or the JIT compiler), the engine executes it. This involves 
+- managing memory (allocating space for variables),
+- handling the call stack (keeping track of function calls),
+- interacting with the operating system.
+- and other tasks. 
+Exlained in the **b-js-internalss.md**
