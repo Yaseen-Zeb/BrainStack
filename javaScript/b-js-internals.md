@@ -72,13 +72,15 @@ function two() {
   console.log("Hello");
 }
 one();
+
+// Global Execution Context → pushed to Global call stack.
+// one() → pushed to call stack.
+// two() → pushed to Call Stack of function **one**.
+// two() → executes → logs "Hello", then pops out from the (CS) of function one.
+// one() → pops out from the global (CS)
+// Global CS is empty.
 ```
-Global Execution Context → pushed to Global call stack.
-one() → pushed to call stack.
-two() → pushed to Call Stack of function **one**.
-two() → executes → logs "Hello", then pops out from the (CS) of function one.
-one() → pops out from the global (CS)
-Global CS is empty.
+
 
 
 
