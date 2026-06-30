@@ -224,8 +224,45 @@ const counter = outer();
 counter(); // 1
 counter(); // 2
 counter(); // 3
+
+// as the counter reference to inner function and inner function have reference to outer function's lexical environment, so count variable is still alive and can be accessed by counter.
+// the outer will pop out from the call stack but count variable will not be garbage collected as long as the counter is alive or something else have a reference to it.
+
+
+
+// function outer() {
+//   let count = 0;
+//   function inner() {
+//     count++;
+//     console.log(count);
+//   }
+//   return inner;
+// }
+// note no matter that nasted function are returened or called in parent function or whatever, it will still have access to the outer function's variables (outer function's lexical environment).
 ```
 Closures exist because the returned function (inner) keeps a reference to its parent scope (outer), so variables like count remain in heap memory even after outer has finished.
+## Interview Ques
+### 1
+```js
+for (var i = 1; i <= 3; i++) {
+  setTimeout(() => {
+    console.log(i);
+  }, 1000);
+}
+// Output: 4 4 4
+
+for (let i = 1; i <= 3; i++) {
+  setTimeout(() => {
+    console.log(i);
+  }, 1000);
+}
+// Output: 1 2 3
+
+// undrestand this later
+// +
+// https://www.youtube.com/watch?v=t1nFAMws5FI&list=PLlasXeu85E9cQ32gLCvAvr9vNaUccPVNP&index=15
+```
+
 
 
 
