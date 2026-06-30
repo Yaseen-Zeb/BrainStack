@@ -5,10 +5,11 @@
 1. **Memory: Stack vs Heap**
 2. **Execution Context**
 3. **Global Object (window in Browsers, global in Node)**
-4. **Closure**
-5. **Scope**
-6. **this**
-7. **Garbage Collection**
+4. **What is a Lexical Environment?**
+5. **Closure**
+6. **Scope**
+7. **this**
+8. **Garbage Collection**
 
 
 
@@ -101,28 +102,6 @@ The window object is the global object created by the browser whenever you open 
 
 
 
-# Closure
-A closure is created when a function "remembers" and can access variables from its outer scope, even after that outer function has finished executing. **Closure = Function + Lexical Environment**
-```js
-function outer() {
-  let count = 0;
-  function inner() {
-    count++;
-    console.log(count);
-  }
-  return inner;
-}
-const counter = outer();
-counter(); // 1
-counter(); // 2
-counter(); // 3
-```
-Closures exist because the returned function (inner) keeps a reference to its parent scope (outer), so variables like count remain in heap memory even after outer has finished.
-
-
-
-
-
 # Scope
 Scope determines the visibility and accessibility of variables — i.e., where a variable can be accessed or modified
 
@@ -165,6 +144,88 @@ console.log(blockVar); // ❌ Error
 console.log(constVar); // ❌ Error
 console.log(varVar);   // ✅ Accessible if inside function, otherwise global
 ```
+
+
+
+
+
+# What is a Lexical Environment?
+A lexical environment is an internal storage structure created by JavaScript engine for each scope. It stores that scope's variables and functions and contains a reference to its outer lexical environment.
+## Example: 
+```js
+function funA() {
+  let x = 10;
+  let y = 20;
+
+  function funB() {}
+}
+
+// When funA() runs, JavaScript creates something conceptually like this:
+// Lexical Environment of funA
+// ---------------------------
+// x    → 10
+// y    → 20
+// funB → <function>
+// Outer → Global Lexical Environment
+
+// Notice:
+// 1. It stores variables.
+// 2. It stores function declarations.
+// 3. It stores a reference to the outer lexical environment.
+```
+
+## Why does JavaScript need it?
+Imagine this code:
+```js
+let a = 10;
+function funA() {
+  let b = 20;
+
+  console.log(a + b);
+}
+funA();
+
+// When JavaScript executes console.log(a + b) it needs to know:
+// Where is b?
+// Where is a?
+// It checks the lexical environments:
+
+// funA Environment
+// ----------------
+// b = 20
+
+// ↓
+
+// Global Environment
+// ------------------
+// a = 10
+
+// Without these reference (outer) environments, JavaScript wouldn't know where variables are stored.
+```
+## Scope Chain
+Scope chain is nothing but reference to outer lexical environment.
+
+
+
+
+
+# Closure
+A closure is created when a function "remembers" and can access variables from its outer scope, even after that outer function has finished executing.
+```js
+function outer() {
+  let count = 0;
+  function inner() {
+    count++;
+    console.log(count);
+  }
+  return inner;
+}
+const counter = outer();
+counter(); // 1
+counter(); // 2
+counter(); // 3
+```
+Closures exist because the returned function (inner) keeps a reference to its parent scope (outer), so variables like count remain in heap memory even after outer has finished.
 
 
 
@@ -263,8 +324,3 @@ Unreachable → If no references exist, it’s useless → Garbage Collector rem
 let user = { name: "Ali" }; // allocated in memory
 user = null; // old object is unreachable → GC will clean it
 ```
-
-
-
-
-
