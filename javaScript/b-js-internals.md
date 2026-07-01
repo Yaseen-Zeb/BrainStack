@@ -272,26 +272,67 @@ for (let i = 1; i <= 3; i++) {
 this is a special keyword in JavaScript that refers to the object that is executing the current function. It provides a way for functions to access the object that "owns" or "invokes" them
 Its value is determined at call time, not at write time.
 
-## Rules
+## How this behaves in different contexts.
+Top-level `this` (Global Scope)
 Default Binding
 Implicit Binding
 Explicit Binding (call, apply, bind) واضح طور پر
 New Binding
 In Event Handler
 
+**Top-level `this` (Global Scope)**
+When this is used in global scope, it refers to the Global object (window in browsers, global in Node.js).
+```js
+console.log(this);
+ // global object depending on environment. in browser it is window object. in nodejs it is global object. in other environmnet it may be different.
+```
+
 **Default Binding**
-When a function is called without any object context, this defaults to:
-Global object (window in browsers, global in Node.js) in non-strict mode.
-undefined in strict mode. **take a look on arrow fn** 
+Default binding apply when the function is called without:
+- an object (obj.fn())
+- call()
+- apply()
+- bind()
+- new
+this defaults to:
+- Global object (window in browsers, global in Node.js) in non-strict mode.
+- undefined in strict mode. **take a look on arrow fn** 
 ```js
 function show() {
   console.log(this);
 }
-show(); // window (in browser), undefined (in strict mode)
+show(); // window, undefined (in strict mode)
+
+// arrow fn don't have their own this.
+// they use the lexical this (the value of this where the function was defined).
+const show = () => {
+  console.log(this);
+}
+show(); // window, undefined (in strict mode)
+
+// Explanation
+// Both functions may print the same value in this example, but for different reasons.
+
+// Regular Function
+// A regular function determines this when it is called.
+// In this example, show() is a plain function call, so default binding applies
+// Non-strict mode → this === window (browser), always directly refers to global object no matter it nested inside another function or not.
+// Strict mode → this === undefined
+
+// Arrow Function
+// An arrow function never creates its own this.
+// It captures this from the surrounding lexical execution context when the arrow function is created.
+// Since this arrow is created in the global scope, it captures the global this.
+// Non-strict mode → this === window (browser)
+// Strict mode → this === undefined
+
+// So its clear for arrow functions always take this from the outer scope that set.
+// Now the things to exlore more is regular fn which is below explained.
 ```
 
 **Implicit Binding**
 When a function is called as a method of an object, this is bound to the object before the dot (.)
+It is called implict cuz obj is not explicitly passed. the js engine automatically binds the object to the this keyword. we just use obj.fn() not explictly say that this = obj just like call/apply/bind. js auto binds this.
 ```js
 const user = {
   name: "Ali",
@@ -300,22 +341,131 @@ const user = {
   }
 };
 user.greet(); // "Ali" → `this` refers to `user`
+
+// In case of arrow function
+
+var age = 25;
+const user = {
+  age: 30,
+  greet: () => {
+    console.log(this.age);
+  }
+};
+user.greet(); // 25
+// As we discussed above arrow functions take this from the surrounding lexical context where it was created.
+// greet function is defined in user object, which is in global scope.
+// so it takes this from the global scope.
+
+// Note:
+// Only functions create execution context. not other code blocks.
+// that's why arrow fn take this from outer scope.
+
+// one last important point
+"use strict"
+function fn(){
+  console.log(this);
+}
+fn(); // undefined in strict mode, window in non-strict mode
+window.fn() // window in strict mode, window in non-strict mode
+// cuz window.fn() is implicit binding not default binding.
 ```
 
 **Explicit Binding**
-We can manually set the value of this using:
-call(thisArg, ...args)
-apply(thisArg, [args])
-bind(thisArg)
+This is called explict binding cuz we can explictly/manually set the value of this using:
+call(thisReference) or call(thisReference, arg1, arg2, ...)
+apply(thisReference) or apply(thisReference, [arg1, arg2, ...])
+bind(thisReference) or bind(thisReference, arg1, arg2, ...)
 ```js
-function greet() {
-  console.log(this.name);
+// First let understand the problem statement 
+// let says we have
+const person1 = {
+  name: "Ali",
+  age: 25,
+  details: function() {
+    console.log(`Name: ${this.name}, Age: ${this.age}`);
+  }
+};
+const person2 = {
+  name: "Sara",
+  age: 20,
+  details: function() {
+    console.log(`Name: ${this.name}, Age: ${this.age}`);
+  }
+};
+const person3 = {
+  name: "Ahmed",
+  age: 22,
+  details: function() {
+    console.log(`Name: ${this.name}, Age: ${this.age}`);
+  }
+};
+person1.details();
+person2.details();
+person3.details();
+
+// now see we are repeated the details function multiple times.
+// this is where explicit  binding comes to the play.
+
+// call method
+function details() {
+  console.log(`Name: ${this.name}, Age: ${this.age}`);
 }
-const person = { name: "Sara" };
-greet.call(person);  // "Sara"
-greet.apply(person); // "Sara"
-const boundGreet = greet.bind(person);
-boundGreet();        // "Sara"
+const person1 = { name: "Ali", age: 25 };
+const person2 = { name: "Sara", age: 20 };
+const person3 = { name: "Ahmed", age: 22 };
+details.call(person1);
+details.call(person2);
+details.call(person3);
+// with arguments
+const details = function(city, country) {
+  console.log(`Name: ${this.name}, Age: ${this.age}, City: ${city}, Country: ${country}`);
+};
+details.call(person1, "Karachi", "Pakistan");
+details.call(person2, "London", "UK");
+details.call(person3, "Dubai", "UAE");
+
+// apply method
+const details = function() {
+  console.log(`Name: ${this.name}, Age: ${this.age}`);
+};
+details.apply(person1);
+details.apply(person2);
+details.apply(person3);
+// with arguments
+const details = function(city, country) {
+  console.log(`Name: ${this.name}, Age: ${this.age}, City: ${city}, Country: ${country}`);
+};
+details.apply(person1, ["Karachi", "Pakistan"]);
+details.apply(person2, ["London", "UK"]);
+details.apply(person3, ["Dubai", "UAE"]);
+
+// bind method
+const details = function() {
+  console.log(`Name: ${this.name}, Age: ${this.age}`);
+};
+const d1 = details.bind(person1);
+const d2 = details.bind(person2);
+const d3 = details.bind(person3);
+d1();
+d2();
+d3();
+// with arguments
+const details = function(city, country) {
+  console.log(`Name: ${this.name}, Age: ${this.age}, City: ${city}, Country: ${country}`);
+};
+const d1 = details.bind(person1, "Karachi", "Pakistan");
+const d2 = details.bind(person2, "London", "UK");
+const d3 = details.bind(person3, "Dubai", "UAE");
+d1();
+d2();
+d3();
+
+// call and apply call the function immediately but with differnt ways to pass arguments (one by one and other as an array).
+// bind returns a new function that can be called later.
+
+// the above call apply and bind are explictly binding
+// Important -> Explict binding override the implict binding.
+// reference video: https://www.youtube.com/watch?v=75W8UPQ5l7k
 ```
 
 **New Binding**
