@@ -3,10 +3,10 @@
 ## Table of Contents
 
 1. **Function Statement vs Expression**
-2. **Regular Function vs Arrow Function**
-3. **Anonymous Function**
-4. **Named Function Expression**
-5. **First Class Function**
+2. **Anonymous Function**
+3. **First Class Function**
+4. **Regular Function vs Arrow Function**
+5. **Named Function Expression**
 6. **High Order Function**
 7. **CallBack Function**
 8. **IIFE (Immediately Invoked Function Expression)**
@@ -50,6 +50,41 @@ var b = function () { console.log("b"); };
 ### 2. Syntax
 - In function expression function is assigned to a variable
 - Function statement = function a() {console.log("a");}
+
+
+
+
+
+# Anonymous Function
+Those functions which do not have a name are called anonymous functions.
+```javascript
+function () {
+    console.log("hello");
+}   // anonymous function
+// runnimg this will throw syntax error so where we can use anonymous functions?
+// anonymous functions are used in function expressions, call back functions, immediately invoked function and as value of variables.
+
+// as call back functions
+function funA(cb) {
+  cb();
+}
+funA(function () {
+  console.log("hello");
+});
+
+// as IIFE
+(function () {
+  console.log("hello");
+})();
+
+// as function expression / as value of variable
+var funB = function () {
+  console.log("hello");
+};
+funB();
+
+// and many more places 
+```
 
 
 
