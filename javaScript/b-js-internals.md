@@ -37,8 +37,34 @@ console.log(obj1.value); // 20
 
 
 
-# Execution Context(Memory Allocation / Hoisting)
+# Execution Context
 When the JavaScript engine scans a script file, it makes an environment called the Execution Context that handles the entire transformation and execution of the code.
+<!-- Important -->
+- Before the Creation Phase begins, global object is created and **Call Stack** is initialized with **Global Execution Context (GEC)** and then the things start.
+- And if there is another function call inside the global context then another execution context will be created for that function and pushed onto the call stack and same with inside the nested function call and so on.
+- Let say there are 3 nested functions calls:
+```js
+function first() {
+  function second() {
+    function third() {
+      console.log("Hello");
+    }
+    third();
+  }
+  second();
+}
+first();
+```
+
+- Then call stack will have three execution contexts **(Top to Bottom: Last In, First Out)**:
+  - Third Execution Context **(Top)**
+  - Second Execution Context
+  - First Execution Context
+  - Global Execution Context **(Bottom)**
+
+Now as third function has no nested function call so it will finish its execution first and will be popped from the call stack and then second function will finish its execution and will be popped from the call stack and same with the first function and then global execution context will finish its execution and will be popped from the call stack and call stack will become empty.
+
+Blow this Process is Explained in detail:
 
 ## Parts of Execution Context
 Creation Phase
@@ -56,15 +82,31 @@ var a = 10;
 function test() {
   return "hello";
 }
+
+// Important
+// this is how primitive and reference data types are stored in memory during execution context creation phase:
+
+// | Type                 | Creation Phase                           | Execution Phase                              |
+// | -------------------- | ---------------------------------------- | -------------------------------------------- |
+// | `var a = 10`         | `a → undefined`                          | `a → 10`                                     |
+// | `var obj = {}`       | `obj → undefined`                        | Object created in heap, `obj` gets reference |
+// | `var arr = []`       | `arr → undefined`                        | Array created in heap, `arr` gets reference  |
+// | Function declaration | Function object is created and available | Executes when called                         |
+// | Function expression  | Variable → `undefined`                   | Function object created and assigned         |
 ```
 
 ### Execution Phase
-Code executes line by line. **Stack Memory** get updated and actual values get assigned to variables. **Heap Memory** is used for reference types (objects, arrays, functions).
+Code executes line by line. **Stack Memory** get updated and actual values get assigned to variables.
+- **Primitive data types** are stored in **Stack Memory** so they easily gets overwritten during execution phase and value gets changed.
+- **Reference data types** (objects, arrays, functions, etc.) are stored in **Heap Memory**, and variables (in stack memory) hold references to them. so they don't get overwritten during execution phase.
 ```js
 var y = 20; // stored in stack (primitive)
-var x = { name: "Ali" }; // stored in heap (object reference)
+var x = { name: "Ali" }; // stored in heap and x (in stack memory) hold reference to it.
 ```
-During Execution Phase the when there is sync function call it goes to **Call Stack** also called **Execution Context Stack, Runtime Stack, or Machine Stack** and make his own **Execution Context (FEC)** with same proccess as above. It works on LIFO (Last In, First Out)
+**Note:**
+- Functions create only execution context when call not the call stack (call stack is one for entire javascript program).
+
+During Execution Phase the whenever a function is invoked (synchronous function call), JavaScript creates a new Function Execution Context and pushes it onto the **Call Stack** also known as **Execution Context Stack, Runtime Stack, or Machine Stack** and make his own **Execution Context (FEC)** with same proccess as above. It works on LIFO (Last In, First Out)
 ```js
 function one() {
   two();
@@ -74,12 +116,16 @@ function two() {
 }
 one();
 
-// Global Execution Context → pushed to Global call stack.
-// one() → pushed to call stack.
-// two() → pushed to Call Stack of function **one**.
-// two() → executes → logs "Hello", then pops out from the (CS) of function one.
-// one() → pops out from the global (CS)
-// Global CS is empty.
+// Execution:
+// Global Execution Context is created and pushed onto the Call Stack.
+// one() is called.
+// A new Function Execution Context for one() is created and pushed in Call Stack.
+// two() is called.
+// A new Function Execution Context for two() is created and pushed in Call Stack.
+// two() finishes and is popped from the Call Stack.
+// one() finishes and is popped from the Call Stack.
+// Global Execution Context finishes and is popped from the Call Stack.
+// Call Stack becomes empty.
 ```
 
 

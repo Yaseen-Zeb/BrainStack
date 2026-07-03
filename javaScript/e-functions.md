@@ -88,3 +88,33 @@ funB();
 
 
 
+
+
+# First Class Function
+It is a programming concept in which we can treat a function as other value (string, number, boolean, array, object, undefined, etc.)
+## Example:
+```javascript
+// as return value of function
+function funA() {
+  return function () { // anonymous function
+    console.log("hello");
+  };
+}
+funA()();
+
+// as argument of function (callback function)
+function funB(fn) {
+    fn();
+}
+funB(function () {
+    console.log("hello");
+});
+
+// as value of variable
+var funC = function () {
+    console.log("hello");
+};
+funC();
+
+// and many more places
+```
