@@ -45,6 +45,84 @@ The event loop execute this queue completely before moving on to the next macrot
 **Macrotask Queue Callback Queue** (normal priority)
 Stores callbacks from setTimeout, setInterval, setImmediate (Node.js), DOM events, I/O operations, network callbacks.
 The event loop picks one macrotask per tick, then execute all microtasks before rendering.
+```javascript
+// Microtask Example
+setTimeout(() => {
+    console.log("Timer done"); // Macrotask
+}, 0);
+
+new Promise((resolve) => {
+    resolve("Promise done");
+}).then((value) => {
+    console.log(value); // Microtask
+});
+
+console.log("Sync code"); // Synchronous
+
+// Output:
+// Sync code
+// Promise done  <-- Microtask runs immediately
+// Timer done    <-- Macrotask waits for stack to clear
+
+// when code run it go to call stack
+// when code have async tasks it go to web api's (in this we have timer, and promise)
+// web api's work and send the callback to the microtask queue and macrotask queue (depends on the task)
+// now when sync code finish it will check the microtask queue
+// in our case event loop find promise callback in microtask queue and timer callback in macrotask queue
+// event loop execute all microtask queue callback then it will check the macrotask queue
+
+
+// now
+setTimeout(() => {
+    console.log("Timer done"); // Macrotask
+}, 0);
+
+new Promise((resolve) => {
+    setTimeout(() => {
+        resolve("Promise done");
+    }, 0);
+}).then((value) => {
+    console.log(value); // Microtask
+});
+
+console.log("Sync code"); // Synchronous
+
+// Output:
+// Sync code
+// Timer done    <-- Macrotask waits for stack to clear
+// Promise done  <-- Microtask runs immediately
+
+// In above case
+// when code run it go to call stack
+// when code have async tasks it go to web api's (in this we have timer, and promise inside timer)
+// web api's work and send two timers callback to the queue (one for timer, one for promise inside timer)
+// now when sync code finish it will check the microtask queue
+// event loop find the microtask queue empty and two callbacks in macrotask queue
+// now event loop will execute the macrotask queue callbacks
+// in that timer callback we have a promise will again go to web api and then to microtask queue
+// and again event loop will check the macro and micro task queue
+
+// Mental model:
+// Global Code
+//     ↓
+// Call Stack
+//     ↓
+// Web APIs (timers, fetch, DOM events, etc.)
+//     ↓
+// Timer finishes
+//     ↓
+// Macrotask Queue
+//     ↓
+// Run callback
+//     ↓
+// If callback resolves a Promise
+//     ↓
+// Microtask Queue (.then/.catch/.finally)
+//     ↓
+// Event Loop drains ALL microtasks
+//     ↓
+// Next Macrotask
+```
 
 
 
