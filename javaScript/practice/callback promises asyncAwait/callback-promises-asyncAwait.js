@@ -185,6 +185,11 @@ getUserData(1);
 // Easy to read
 // Single try/catch for error handling
 
+// Important Points
+// async always return a promise (even if you return a normal value it wrap it in a promise) we can access that value with .then()/await.
+// await can only be used inside async function
+// await only pause async function not entire javascript engine
+
 // What async/await solves over Promises
 // | Problem with Promises                        | Solution with async/await           |
 // | -------------------------------------------- | ----------------------------------- |
@@ -192,9 +197,7 @@ getUserData(1);
 // | Passing multiple values between `.then()`    | Just use variables like normal      |
 // | Multiple `.catch()` scattered                | Single `try/catch`                  |
 // | Hard to debug with stack traces              | Stack traces look synchronous       |
-// | Mixing sync + async logic                    | Can write **mixed logic naturally** |
 
-// Important theory: under the hood
 // Even though await looks like synchronous code, it’s still async:
 console.log("Start");
 async function run() {
@@ -209,3 +212,145 @@ console.log("End");
 // Start
 // End
 // Done
+
+
+// Important examples below
+
+// example 1: 
+const p1 = new Promise((res) => {
+  setTimeout(() => {
+    res("p1 resolved");
+  }, 10000);
+});
+
+const p2 = new Promise((res) => {
+  setTimeout(() => {
+    res("p2 resolved");
+  }, 5000);
+});
+
+async function fn() {
+  const val1 = await p1;
+  console.log(val1);
+
+  const val2 = await p2;
+  console.log(val1);
+}
+
+fn();
+
+// 1. `p1` is created.
+//    - Its executor runs immediately.
+//    - A 10-second timer starts in the background.
+
+// 2. `p2` is created.
+//    - Its executor runs immediately.
+//    - A 5-second timer starts in the background.
+
+// 3. `fn()` is called and pushed onto the Call Stack.
+
+// 4. JavaScript reaches `await p1`.
+//    - `p1` is still pending.
+//    - JavaScript saves the execution state of `fn()`.
+//    - It attaches a continuation (resume callback) to `p1`.
+//    - `fn()` is removed from the Call Stack.
+
+// 5. The Call Stack becomes empty, allowing JavaScript to execute other tasks.
+
+// 6. After 5 seconds:
+//    - `p2` resolves.
+//    - Nothing happens because `fn()` is still waiting for `p1`.
+
+// 7. After 10 seconds:
+//    - `p1` resolves.
+//    - A microtask is queued to resume `fn()`.
+
+// 8. The Event Loop executes the microtask.
+//    - `fn()` continues after `await p1`.
+//    - "p1 resolved" is printed.
+
+// 9. JavaScript reaches `await p2`.
+//    - `p2` is already resolved.
+//    - A microtask is queued immediately.
+
+// 10. `fn()` resumes almost immediately.
+//     - "p2 resolved" is printed.
+
+// Result:
+// - Total execution time ≈ 10 seconds.
+
+// Key Point:
+// Creating a Promise starts the asynchronous work immediately.
+// `await` only waits for an existing Promise.
+
+
+
+// example 2:
+async function fn() {
+
+  const val1 = await new Promise((res) => {
+    setTimeout(() => {
+      res("p1 resolved");
+    }, 10000);
+  });
+  console.log(val1);
+
+  const val2 = await new Promise((res) => {
+    setTimeout(() => {
+      res("p2 resolved");
+    }, 5000);
+  });
+  console.log(val2);
+}
+
+fn();
+
+// 1. `fn()` is called and pushed onto the Call Stack.
+
+// 2. JavaScript reaches
+
+//    await new Promise(...)
+
+// 3. The Promise is created.
+//    - Its executor runs immediately.
+//    - A 10-second timer starts.
+
+// 4. Since the Promise is pending:
+//    - JavaScript saves the execution state of `fn()`.
+//    - It attaches a continuation.
+//    - `fn()` is removed from the Call Stack.
+
+// 5. After 10 seconds:
+//    - The Promise resolves.
+//    - A microtask resumes `fn()`.
+
+// 6. "p1 resolved" is printed.
+
+// 7. JavaScript reaches the second
+
+//    await new Promise(...)
+
+// 8. A NEW Promise is created now.
+//    - Its executor runs immediately.
+//    - A 5-second timer starts.
+
+// 9. Since it is pending:
+//    - JavaScript saves the execution state.
+//    - `fn()` leaves the Call Stack again.
+
+// 10. After 5 seconds:
+//     - The Promise resolves.
+//     - A microtask resumes `fn()`.
+
+// 11. "p2 resolved" is printed.
+
+// Result:
+// - Total execution time ≈ 15 seconds.
+
+// Key Point:
+// The second Promise does not exist until the first `await` finishes.
+// Each Promise starts only when JavaScript reaches its creation.
+
+
+
+
