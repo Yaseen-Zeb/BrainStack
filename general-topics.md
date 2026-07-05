@@ -17,6 +17,7 @@
 12. **How does the receiver know which algorithm to use?**
 13. **Message Queue vs Pub Sub vs Kafka**
 14. **Api vs Webhook**
+15. **Debouncing vs Throttling**
 
 
 
@@ -53,17 +54,6 @@ The temporary port is assigned by the operating system and released when no long
 
 
 
-
-
-
-# Firewall
-
-# Proxy
-
-
-
-
-
 # Real HTTPS Flow SSL
 - Browser → Hello
 - Server → Certificate + Public Key
@@ -72,7 +62,6 @@ The temporary port is assigned by the operating system and released when no long
 - Browser encrypts session key using Public Key
 - Server decrypts using Private Key
 - Both use session key for communication
-
 
 
 
@@ -94,6 +83,9 @@ Server has SessionKey
 Attacker has SessionKey
 
 
+
+
+
 # With certificate verification
 The server gets a certificate from a CA where the CA signs (hash of server domain + server public key) using the CA private key, and includes that signature in the certificate
 The server sends this certificate to the client during the TLS handshake
@@ -102,6 +94,7 @@ Now, if an attacker replaces the server public key inside the certificate (e.g.,
 The CA signature no longer matches the modified data because the signature was created for the original (server public key + domain)
 When the client verifies the signature using the CA public key, it gets a mismatch
 So the client detects tampering, rejects the certificate, and the TLS connection is not established (attack fails)
+
 
 
 
@@ -132,3 +125,79 @@ All three systems can be used in a streaming architecture because producers and 
 ### The difference:
 - Message Queue: stores messages until delivery.
 - Kafka: stores events even after delivery, according to the retention policy.
+
+
+
+
+
+# Debouncing vs Throttling
+Both are optimization techniques to control the rate of function calls.
+## Debounce
+Delay and wait for calm/break in inputs
+``` js
+const inp = document.querySelector("input");
+let timer;
+
+let debouncing = () => {
+  if (timer) clearTimeout(timer);
+  timer = setTimeout(() => {
+    console.log(inp.value);
+  }, 2000);
+};
+
+inp.addEventListener("input", debouncing);
+
+
+// User types 'a' → wait 200ms
+// User types 'p' → reset timer, wait 200ms
+// User types 'p' → reset timer, wait 200ms
+// User types 'l' → reset timer, wait 200ms
+// User types 'e' → reset timer, wait 200ms
+// Now 200ms passed without input → call API
+
+// Output: API called only ONCE
+```
+## Throttle
+Fire once every 200ms
+``` js
+const inp = document.querySelector("input");
+let timer;
+
+let throttling = () => {
+  if (timer) return;
+  timer = setTimeout(() => {
+    console.log(inp.value);
+    timer = null;
+  }, 2000);
+};
+
+inp.addEventListener("input", throttling);
+      
+// User types 'a' → call API immediately
+// Wait 200ms (ignore all other inputs)
+// User types 'p'
+// User types 'p'
+// User types 'l' 
+// User types 'e' 
+// 200ms passed → call API
+// user types 'w' → call API
+// user types 'w' → call API
+// user types 'w' → call API
+// user types 'w' → call API
+// user types 'w' → call API
+// user types 'w' → call API
+// 200ms passed → call API
+
+
+// Output: No breaks in between typing &  API called 2 times (in this case DB will get only 1 request insdead of 2 as it reset timer on every call)
+```
+## When to use
+### Debounce:
+- Search suggestions
+- Auto-save
+
+### Throttle:
+- Resize events
+- Scroll events
+- Mouse move
+- API calls on infinite scroll
