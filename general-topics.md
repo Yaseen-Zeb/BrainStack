@@ -18,6 +18,7 @@
 13. **Message Queue vs Pub Sub vs Kafka**
 14. **Api vs Webhook**
 15. **Debouncing vs Throttling**
+16. **Currying**
 
 
 
@@ -201,3 +202,100 @@ inp.addEventListener("input", throttling);
 - Scroll events
 - Mouse move
 - API calls on infinite scroll
+
+
+
+
+
+# Currying
+Currying in JavaScript is a functional programming technique that transforms a function with multiple arguments into a sequence of nesting functions, each taking a single argument. Instead of passing all parameters simultaneously, it takes the first parameter and returns a new function. This returned function accepts the second parameter and returns another function, repeating this pattern until all expected arguments are provided and the final result is resolved.
+```js
+// normal function without currying
+function add(a, b, c ,d) {
+  return a + b + c + d;
+}
+
+console.log(add(5,10,15,20)); // 50
+// here we pass both arguments at once (in single function call)
+
+
+// with currying
+function curriedAdd(a) {
+  return function(b) {
+    return function(c){
+      return function(d){
+        return a + b + c + d;
+      }
+    }
+  };
+}
+
+const add5 = curriedAdd(5);
+const add5and10 = add5(10); 
+const add5and10and15 = add5and10(15); 
+const add5and10and15and20 = add5and10and15(20); 
+console.log(add5and10and15and20); // returns 50
+// or we can do like this
+console.log(curriedAdd(5)(10)(15)(20)); // returns 50
+```
+
+Now may seem currying is useless but it's not.
+For example: 
+```js
+// Imagine you're building an e-commerce website.
+// The tax is always 18%.
+function calculatePrice(price, tax) {
+  return price + (price * tax) / 100;
+}
+
+console.log(calculatePrice(100, 18));
+console.log(calculatePrice(200, 18));
+console.log(calculatePrice(500, 18));
+// Notice something? We're repeating 18 again and again.
+
+
+// Now the goal is to avoid this repetition:
+function calculateTax(tax) {
+  return function calculatePrice(price) {
+    return price + (price * tax) / 100;
+  }
+}
+const calculate18Tax = calculateTax(18);
+console.log(calculate18Tax(100));
+console.log(calculate18Tax(200));
+console.log(calculate18Tax(500));
+
+// Now let say we also need 10% and 20% tax. So with currying we can do like this:
+const calculate10Tax = calculateTax(10);
+const calculate20Tax = calculateTax(20);
+
+console.log(calculate10Tax(100));
+console.log(calculate10Tax(200));
+console.log(calculate20Tax(500));
+console.log(calculate20Tax(250));
+```
+### Note:
+- Not necessary that currying function have single parameter
+- Not every returned function is curried
+- Every curried function have more than one returned function
+
+```js
+function a(x) {
+  return function (y) {
+    return x + y;
+  };
+}
+
+console.log(a(1)(2)); // 3
+
+
+function b(a) {
+  return function (name) {
+    console.log(name);
+  };
+}
+
+// A ✅ Currying (it represents transforming add(x, y) into add(x)(y)).
+// B ❌ Not currying (it's simply a function returning another function).
+```
+
