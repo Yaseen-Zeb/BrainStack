@@ -19,6 +19,7 @@
 14. **Api vs Webhook**
 15. **Debouncing vs Throttling**
 16. **Currying**
+17. **Bubbling, Capturing**
 
 
 
@@ -299,3 +300,107 @@ function b(a) {
 // B ❌ Not currying (it's simply a function returning another function).
 ```
 
+
+
+
+
+# Bubbling, Capturing
+Bubbling and Capturing are the two phases of Event Propagation in the DOM. When an event (like a click) happens on a nested HTML element, it doesn't just trigger on that single element; it propagates through the document tree. The order in which this propagation travels determines whether it's bubbling or capturing.
+
+## Capturing (Trickling)
+During capturing phase, the event travels **downwards** from the window to the target element, passing through all parent elements on which event listeners are attached (until it reaches the target element).
+
+### Capturing Flow:
+Window → Document → html → body → parent → child (Target)
+
+### Example
+```js
+const grandparent = document.getElementById("grandparent");
+const parent = document.getElementById("parent");
+const child = document.getElementById("child");
+
+grandparent.addEventListener("click", () => console.log("Grandparent"), true);
+parent.addEventListener("click", () => console.log("Parent"), {capture:true});
+child.addEventListener("click", () => console.log("Child"), true);
+// true or {capture:true} indicates capturing phase
+
+// Output: 
+// Grandparent
+// Parent
+// Child
+```
+
+## Bubbling
+During bubbling phase, the event travels **upwards** from the target element to the window, passing through all parent elements on which event listeners are attached (until it reaches the window).
+
+### Bubbling Flow:
+Child (Target) → parent → grandparent → body → html → Document → window
+
+### Example
+```js
+const grandparent = document.getElementById("grandparent");
+const parent = document.getElementById("parent");
+const child = document.getElementById("child");
+
+grandparent.addEventListener("click", () => console.log("Grandparent"));
+parent.addEventListener("click", () => console.log("Parent"));
+child.addEventListener("click", () => console.log("Child"));
+// Default phase is bubbling (no need to pass true or {capture:false})
+
+// Output:
+// Child
+// Parent
+// Grandparent
+```
+
+### Important Note
+Flow of capturing and bubbling is:
+- Window → Document → html → body → parent → child (Target) → parent → grandparent → body → html → Document → window
+- So the event reach to target it will obviously pass through all parent (capture phase), and during passing if there a capture event listener run if not continue the step down journy, when reach to target it execute target event listener and then again start journy to top of window (bubble phase), and during passing if there a bubble event listener run if not continue the step up journy.
+
+See some more examples on internet that how capturing and bubbling works with different different elements and in combination with each other, and try to understand it clearly.
+
+## Stop Propagation
+Stop Propagation is a method that stops the propagation of an event to the parent and grandparent elements (both bubbling and capturing phases).
+```js
+const grandparent = document.getElementById("grandparent");
+const parent = document.getElementById("parent");
+const child = document.getElementById("child");
+
+grandparent.addEventListener("click", () => console.log("Grandparent"));
+parent.addEventListener("click", () => console.log("Parent"), {capture:true});
+child.addEventListener("click", (e) => {
+  e.stopPropagation();
+  console.log("Child")
+}, true);
+
+// Output:
+// Child
+```
+
+## Event Delegation
+Event delegation is a technique that allows you to handle events on multiple elements by attaching a single event listener to their common ancestor.
+
+### Example
+```html
+<div id="parent">
+<p>lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+  <button>Button 1</button>
+  <button>Button 2</button>
+  <button>Button 3</button>
+  <button>Button 4</button>
+  <button>Button 5</button>
+</div>
+```
+```js
+const parent = document.getElementById("parent");
+
+parent.addEventListener("click", (e) => {
+  if (e.target.tagName === "BUTTON") {
+    console.log(e.target.textContent + " clicked");
+  }
+});
+
+// Output:
+// Button x clicked
+```
