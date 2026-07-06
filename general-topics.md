@@ -403,4 +403,18 @@ parent.addEventListener("click", (e) => {
 
 // Output:
 // Button x clicked
+
+// Explaintion
+// Step 1 User clicks Button 2
+// Step 2 Browser starts the Capturing Phase, Internally Window → Document → html → body → parent → Button 2.
+// as there is no capture phase listener addEventListener("click", ..., true);
+// Step 3 Target Phase: Button 2, Now it checks "Does Button 2 have a click listener?", No. Nothing runs.
+// Step 4: Next, Bubbling Phase starts automatically Button 2 → parent → body → html → Document → Window.
+// While moving upward it asks each element "Do you have a click listener?".
+// Button 2 → No. Continue.
+// parent → Yes!. Execute: callback(); e.target Still Button 2
+// body → No. Continue.
+// html → No. Continue.
+// Document → No. Continue.
+// Window → No. Continue.
 ```
