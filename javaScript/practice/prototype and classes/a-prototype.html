@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en">
+  <body>
+    <h1>Hello</h1>
+    <script>
+      // # What is Prototype?
+      // In JavaScript, a prototype is a mechanism that allows objects to inherit properties, and methods from one another.
+
+      // 1. most common way to create object in js
+      // literal format
+      let person = {};
+
+      // 2. Now we can add property to objact through Dot Notation(.)
+      person.name = "Yaseen";
+      person.age = 23;
+      person.play = () => console.log("person is playing");
+      person.eat = () => console.log("person is eating");
+
+      // 3. if we have 2 persons or more let say Ahmad, Ali
+      let person2 = {};
+      person2.name = "Ahmad";
+      person2.age = 23;
+      person2.play = () => console.log("person is playing");
+      person2.eat = () => console.log("person is eating");
+      let person3 = {};
+      person3.name = "Ali";
+      person3age = 23;
+      person3.play = () => console.log("person is playing");
+      person3.eat = () => console.log("person is eating");
+      // Now the major thing here to be notice is repeatedly added values to to each object (duplicacy)
+
+      // 4. Now to solve this we can make a simple function which create object and return it.
+      function person4(name, age) {
+        let p = {};
+        p.name = name;
+        p.age = age;
+        p.play = () => console.log(`${p.name} is playing`);
+        p.eat = () => console.log(`${p.name} is eating`);
+        return p;
+      }
+      const p4 = person4("Yaseen", 23);
+      const p5 = person4("Ahmad", 23);
+      const p6 = person4("Ali", 23);
+      // Now we can create many persons so easily
+      // Now this approach is not problemaic for few objects
+      // But if we have so many objects it will fill up memory cuz each time p creates the (p.play, p.eat)
+
+      // 5. Now the issue is to not recreate the same methods in each object so we need to refrence the same methods instead of recreating
+      const personMethods = {
+        play() {
+          console.log("person is playing");
+        },
+        eat() {
+          console.log("person is eating");
+        },
+      };
+      function person5(name, age) {
+        let p = {};
+        p.name = name;
+        p.age = age;
+        p.play = personMethods.play;
+        p.eat = personMethods.eat;
+        return p;
+      }
+      const p7 = person5("Yaseen", 23);
+      const p8 = person5("Ahmad", 23);
+      const p9 = person5("Ali", 23);
+      // Now lets say there more methods we need to add to it, so we will do chenges in two places here (add new methods to personMethods object + also refrence them in the p object) which is annoying and not nice approach
+
+      // 6. Object.create() — Stop copying method references manually
+      function person6(name, age) {
+        const p = Object.create(personMethods);
+        p.name = name;
+        p.age = age;
+        return p;
+      }
+      const p10 = person6("Yaseen", 23);
+      const p11 = person6("Ahmad", 23);
+      p10.play();
+      // What happened?
+      // p10;
+      // │
+      // ├── name
+      // ├── age
+      // │
+      // └── [[Prototype]]
+      //             │
+      //             ▼
+      //           personMethods
+      //              ├── play()
+      //              └── eat()
+      // whis is how Object.create() works
+
+      // 7. Understanding __proto__
+      // Now explain what Object.create() actually did.
+      const p = {};
+      p.__proto__ = personMethods;
+      // When you run person6() and create p10, JS performs these steps:
+      // It creates an empty object for p10.
+      // It sets p10’s internal [[Prototype]] (__proto__) property to point directly to personMethods.
+      // It adds name and age as direct properties of p10.
+      // Result: p10 has its own data (name, age), but its behavior (methods) comes from personMethods via the prototype chain.
+      // So basically when we use Object.create(protoObject), it creates an empty object and links it to protoObject, so this object inherits all the properties and methods of protoObject.
+      // (Internally it uses [[Prototype]], not literally __proto__.)
+      console.log(Object.getPrototypeOf(p) === personMethods); // true
+      console.log(p.__proto__ === personMethods); // true
+
+      // 8. Constructor Functions
+      function Person(name, age) {
+        this.name = name;
+        this.age = age;
+      }
+      Person.prototype.play = function () {
+        console.log("person is playing");
+      };
+      Person.prototype.eat = function () {
+        console.log("person is eating");
+      };
+      const p12 = new Person("Yaseen", 23);
+      const p13 = new Person("Ahmad", 23);
+      p12.play();
+      p13.eat();
+      // above is same as below code
+      function Person(name, age) {
+        const p = Object.create(Person.prototype);
+        p.name = name;
+        p.age = age;
+        return p;
+      }
+      Person.prototype.play = function () {
+        console.log("person is playing");
+      };
+      Person.prototype.eat = function () {
+        console.log("person is eating");
+      };
+      const p14 = Person("Yaseen", 23);
+      const p15 = Person("Ahmad", 23);
+      p14.play();
+      p15.eat();
+      // What is Constructor Functions
+      // Constructor functions are simply regular JavaScript functions that are used to create objects. They are called with the `new` keyword, which automatically creates an empty object, sets its prototype, assigns `this` to the new object, and returns the object.
+
+      // 9. .prototype property
+      // Every function automatically has a property called prototype.
+      function Person(name, age) {
+        this.name = name;
+        this.age = age;
+      }
+      console.log(Person.prototype); // this will return the prototype object which is empty by default
+      // What is .prototype property?
+      // The .prototype property is an object that is automatically created for every function in JavaScript. It is used to store the properties and methods that will be shared by all instances of the function.
+
+      // 10. Adding methods to .prototype
+
+      Person.prototype.play = function () {
+        console.log("person is playing");
+      };
+      Person.prototype.eat = function () {
+        console.log("person is eating");
+      };
+
+      // 11 new keyword
+      function Person(name, age) {
+        this.name = name;
+        this.age = age;
+      }
+      Person.prototype.play = function () {
+        console.log("person is playing");
+      };
+      const p16 = new Person("Yaseen", 23);
+      // When you call a function with the `new` keyword, JavaScript performs these steps:
+      // 1. It creates an empty object.
+      // 2. It sets the new object’s [[Prototype]] to the function’s prototype.
+      // 3. It calls the function with `this` bound to the new object.
+      // 4. It returns the new object (unless the function explicitly returns another object).
+
+      // or without using new keyword
+      function Person(name, age) {
+        const p = Object.create(Person.prototype);
+        p.name = name;
+        p.age = age;
+        return p;
+      }
+      Person.prototype.play = function () {
+        console.log("person is playing");
+      };
+      const p17 = Person("Yaseen", 23);
+
+      // Importants Points
+      // 1. Object.create() method is used to create a new object with the specified prototype.
+      // 2. .prototype is a default property of a function and used to store the properties and methods that will be shared by all instances(objects) of the function(constructor).
+      // 3. new keyword is used to create an object with the specified prototype is is the replace of Object.create() method in prototype based approach.
+      // 4. __proto__ is an internal property of an object that points to its prototype it means when an object is created, its __proto__ is set to the prototype of the function that created it.
+
+      // watch this - https://www.youtube.com/watch?v=HdU0gRnCZc8&t=28s
+      // .prototype and __proto__ are different concepts
+      // .prototype is a property of a function
+      // __proto__ is a property of an object
+      // new keyword is just syntactic sugar for (Object.create() +  + return in constructor function)
+
+      // Now default js constructors
+      // new Array() or [] do alost same below
+      let arr2 = {};
+      arr2.__proto__ = Array.prototype; // Array in default contructor function with prototype (push, pop, map, filter, etc) is same as array literal
+      // it can be confusing it is object not array but low level lang make it like this to behave like array internally, this is deep concept just remember this for now.
+      // for all ie new String/"abc", new Number/123, new Boolean/true etc
+      // Note the methods and properties are only available on built in constructor functions prototype not on our defined functions prototype.
+      // like
+      // function MyArr(){}
+      // MyArr.prototype // this will not have any methods and properties
+
+      // but
+
+      // Array.prototype // this will have methods and properties (push, pop, map, filter, etc)
+      // because Array is built in constructor function
+      // same for all built in constructor functions
+    </script>
+  </body>
+</html>
