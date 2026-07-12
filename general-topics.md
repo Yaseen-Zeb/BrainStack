@@ -193,6 +193,43 @@ inp.addEventListener("input", throttling);
 
 // Output: No breaks in between typing &  API called 2 times (in this case DB will get only 1 request insdead of 2 as it reset timer on every call)
 ```
+## The Problem 
+let say we also need the event properties in the callback of listner, in the above examples we are not able to access the event properties, like element, target, etc. 
+In that case we can use the below approach fit for both debouncing and throttling:
+```js
+// for debouncing
+function debounce(func, delay) {
+  let timer;
+
+  return function(...args) {
+    const context = this;
+
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      func.apply(context, args);
+    }, delay);
+  };
+}
+const debouncedLog = debounce((event) => console.log(event), 2000);
+input.addEventListener("input", debouncedLog);
+
+// for throttling
+function throttle(func, delay) {
+        let isThrottled = false;
+
+        return function (...args) {
+          if (isThrottled) return;
+          func.apply(this, args);
+          isThrottled = true;
+          setTimeout(() => {
+            isThrottled = false;
+          }, delay);
+        };
+      }
+      const throttledLog = throttle((event) => console.log(event), 2000);
+      window.addEventListener("resize", throttledLog);
+```
+
 ## When to use
 ### Debounce:
 - Search suggestions
