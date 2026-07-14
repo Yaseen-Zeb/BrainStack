@@ -4,6 +4,7 @@
 
 1. **Why modules exist (the problem they solve)**
 2. **How Module and Classic Script work?**
+3. **How Modules Load and Execute**
 
 
 
@@ -95,7 +96,7 @@ Uses add()
 
 #### Two ways to export and import:
 1. **Named exports**: Multiple exports per file.
-2. **Default exports**: One export per file.
+2. **Default exports**: A module can have at most one default export, but it can also have named exports alongside it.
 ```javascript
 // Named Exports
 export function add(a, b) { return a + b; }
@@ -297,3 +298,82 @@ load(); // it uses the cached version
 ```
 **Strict Mode** All code inside a module automatically runs in strict mode. This enforces safer coding practices and eliminates confusing language features.
 **Top-Level this** The value of this at the top level of a module is undefined (unlike classic scripts where it's the window object). This prevents accidental global variable creation.
+
+
+
+
+
+# How Module Scripts Load & Execute?
+This process has few stages whicha are as under:
+## Discover Entry Modules and Load Them and Build Module Dependency Graph
+```html
+<script type="module" src="./server.js"></script>
+<script type="module" src="./auth.js"></script>
+<script type="module" src="./user.js"></script>
+```
+At this point, no JavaScript has executed. The browser identifies the entry modules (root modules), downloads them, recursively follows their import statements, downloads any missing modules, and builds the complete module dependency graph.
+For example:
+```javascript
+// server.js
+import { auth } from './auth.js';
+// auth.js
+import { user } from './user.js';
+export const auth = true;
+// user.js
+export const user = true;
+```
+In this case, the module graph would look like this:
+server.js
+        ↓
+    auth.js
+         ↓
+     user.js
+This means server.js depends on auth.js, which depends on user.js.
+After building the module graph, the browser can execute the modules in the correct order.
+
+## Execute Modules
+Once the module dependency graph has been built and all modules have been linked, the browser starts executing the modules.
+Execution begins from the entry module(s). If a module depends on another module that has not yet been executed, the browser pauses the current module, executes the dependency first, and then resumes execution of the paused module.
+Each module is executed only once. If another module imports a module that has already started or finished executing, the browser reuses the existing Module Record instead of executing the module again.
+Then execution unwinds back up the chain.
+**Now** here the most important concept to understand is that every module has flags (evaluated/not evaluated and known/unknown) and many more but these two are importat in below explanation.
+Once the browser loads a module, it creates a Module Record and caches it. After the module successfully executes, its state becomes 'evaluated'. Future imports reuse the same Module Record; the module is never executed again.
+
+### Scenario 1: Multiple files import the same module
+      app.js
+      /   \
+     /     \
+ user.js  admin.js
+      \    /
+       \  /
+      utils.js
+#### What happens?
+- Browser loads all modules.
+- Creates one Module Record for utils.js.
+- Executes utils.js once.
+- Both user.js and admin.js receive the same exported bindings.
+
+### Scenario 2: Two files import each other
+This is also know as **cyclic dependency**
+For Example:
+main.js
+   ▲
+   │
+   ▼
+math.js
+#### What happens?
+- Browser loads both files.
+- Creates Module Records for both.
+- Starts executing main.js.
+- main.js imports math.js, so it pauses.
+- Starts executing math.js.
+- math.js imports main.js.
+- The browser checks:
+    - Is main.js known?
+        ✓ Yes.
+    - Is main.js already being evaluated?
+        ✓ Yes.
+- Therefore:
+    - ❌ Do NOT execute main.js again.
+    - Reuse the existing Module Record.
+    - Continue executing math.js.
