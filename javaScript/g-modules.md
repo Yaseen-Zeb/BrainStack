@@ -331,6 +331,15 @@ server.js
 This means server.js depends on auth.js, which depends on user.js.
 After building the module graph, the browser can execute the modules in the correct order.
 
+## Module Instantiation (Linking)
+Module Instantiation concept is a little bit confusing, i would suggest you to watch video of code king on this topic, but i will try to explain it here:
+For now assume that in this just like hoisting happens in classic script, same for modules also, the browser creates an environment record and hoists thing of all scripts found in module dependency graph. (one thing to remember is that the shared imports/exports can be accessed in their respective modules without executing them) like:
+var = undefined
+regular function = function declaration
+class = Temporal Dead Zone
+let = Temporal Dead Zone
+const = Temporal Dead Zone
+
 ## Execute Modules
 Once the module dependency graph has been built and all modules have been linked, the browser starts executing the modules.
 Execution begins from the entry module(s). If a module depends on another module that has not yet been executed, the browser pauses the current module, executes the dependency first, and then resumes execution of the paused module.
@@ -377,3 +386,64 @@ math.js
     - ❌ Do NOT execute main.js again.
     - Reuse the existing Module Record.
     - Continue executing math.js.
+
+
+#### Cyclic Dependency Issue
+This issue may arise when two modules import each other:
+For example:
+```javascript
+// first.js
+import { second } from './second.js';
+export const first = 10;
+console.log({second});
+// second.js
+import { first } from './first.js';
+export const second = 20;
+console.log({first}); // Error : Cannot access 'first' before initialization
+```
+In this case, 
+-when the browser executes first.js, it encounters an import statement for second.js. It pauses the execution of first.js and starts executing second.js. Then, second.js encounters an import statement for first.js. The browser checks:
+Is first.js known?
+✓ Yes.
+Is first.js already being evaluated?
+✓ Yes.
+Therefore:
+❌ Do NOT execute first.js again.
+Reuse the existing Module Record.
+Continue executing second.js.
+Now as second.js reach to this line `console.log({first})` and error is thrown.
+
+##### How to Fix It
+###### Solution 1: Use Functions (Hoisting to the Rescue)
+```javascript
+// first.js
+import { second } from './second.js';
+function getFirst() {
+    return 10;
+}
+console.log({second});
+export { getFirst };
+// second.js
+import { getFirst } from './first.js';
+function getSecond() {
+    return 20;
+}
+console.log({ first: getFirst() }); // { first: 10 }
+export { getSecond };
+```
+Explanation: 
+Because functions are hoisted as we discussed in in **Instatiation** phase of module execution, they are available immediately. When second.js tries to access getFirst(), the function declaration has already been processed,so even though the module's execution hasn't reached that point yet it is available.
+
+###### Solution 2: Break the Cycle (The Best Practice)
+The most robust architectural fix is to ensure modules don't depend on each other symmetrically. If first.js needs second.js and second.js needs first.js, they usually share a common dependency. You can extract the shared logic or variables into a third file.
+```javascript
+// utils.js
+export const first = 30;
+export const second = 40;
+// first.js
+import { second } from './utils.js';
+console.log({ second });
+// second.js
+import { first } from './utils.js';
+console.log({first});
+```
