@@ -7,6 +7,7 @@
 3. **How Modules Load and Execute**
 4. **Dynamic import()**
 5. **ES Modules vs CommonJS**
+6. **Bundlers**
 
 
 
@@ -527,3 +528,201 @@ console.log("End");
 | Tree shaking           | Difficult                         | Excellent                                       |
 | Browser support        | No (without bundlers/transpilers) | Yes                                             |
 | Modern standard        | Legacy but still supported        | Recommended                                     |
+
+
+
+
+
+# Bundlers
+A bundler is a tool that analyzes your application's module dependency graph and combines (or processes) your source files into optimized files that browsers can efficiently load.
+## Popular bundlers include:
+- Webpack
+- Vite (uses Rollup for production builds)
+- Rollup
+- Parcel
+- esbuild
+- Rspack
+
+## Why Do We Need a Bundler?
+Suppose your project looks like this:
+src/
+│
+├── main.js
+├── auth.js
+├── user.js
+├── api.js
+├── utils.js
+├── validation.js
+├── dashboard.js
+├── profile.js
+└── ...
+Every file imports another file.
+main.js
+   │
+   ▼
+auth.js
+   │
+   ▼
+user.js
+   │
+   ▼
+utils.js
+Without a bundler:
+- Browser downloads many JavaScript files.
+- Browser builds the module graph.
+- Browser executes modules.
+Modern browsers support this just fine.
+
+## Then Why Use a Bundler?
+Because bundlers do much more than just combine files.
+
+### Bundle Modules
+Bundlers combine multiple modules into one (or a few) files.
+This reduces the number of HTTP requests, improving load time.
+
+### Build the Dependency Graph and Tree Shaking
+Just like the browser, bundlers analyze the import/export relationships between modules to create a complete dependency graph. During this process, they can identify and remove unused code (dead code elimination) through a technique called **tree shaking**, ensuring that only the code actually used in the application is included in the final bundle.
+Suppose
+```javascript
+// math.js
+export function add() {}
+export function subtract() {}
+export function multiply() {}
+export function divide() {}
+
+
+// main.js and you only use add() function
+import { add } from "./math.js";
+
+// The other functions are not included in the final bundle.
+// This is called Tree Shaking.
+```
+
+### Optimize Code (Minification)
+Bundlers can minify code (remove whitespace and comments and also change variable names to shorter ones etc) and optimize it for better performance.
+```javascript
+// Before minification
+const sum = (a, b) => {
+    return a + b;
+};
+const difference = (a, b) => {
+    return a - b;
+};
+const product = (a, b) => {
+    return a * b;
+};
+const quotient = (a, b) => {
+    return a / b;
+};
+
+// After minification
+const s = (a, b) => {
+    return a + b;
+};
+const d = (a, b) => {
+    return a - b;
+};
+const p = (a, b) => {
+    return a * b;
+};
+const q = (a, b) => {
+    return a / b;
+};
+```
+
+### Code Splitting (Lazy Loading / Dynamic Import)
+Code splitting is a technique that allows you to split your code into smaller chunks that can be loaded on demand. This improves the initial load time of your application.
+Instead of one huge bundle
+bundle.js (all files combined)
+
+The bundler can produce
+main.js
+dashboard.chunk.js
+admin.chunk.js
+The browser downloads
+main.js only on route /
+import("./dashboard.js") will download dashboard.chunk.js only on route /dashboard 
+import("./admin.js") will download admin.chunk.js only on route /admin
+
+### Asset Handling
+Bundlers can handle assets like CSS, images, fonts, etc which vanilla browsers can't directly import.
+```javascript
+// Import CSS
+import "./style.css";
+
+// Import images
+import logo from "./logo.png";
+
+// etc
+```
+The browser cannot natively process everything this way, but bundlers can.
+
+### TypeScript Support
+Modern bundlers have built-in TypeScript support. They use the TypeScript compiler to check for type errors and can transpile TypeScript code to JavaScript before bundling.
+```javascript
+// You can write
+const age: number = 20;
+// The bundler (or an associated compiler) converts it into JavaScript.
+```
+
+### JSX Support
+Bundlers have built-in JSX support. They use the TypeScript compiler to check for type errors and can transpile TypeScript code to JavaScript before bundling.
+```javascript
+// React component in JSX
+const MyComponent = () => {
+    return <h1>Hello, World!</h1>;
+};
+// becomes plain JavaScript before reaching the browser or before bundling.
+```
+
+### Development Server
+Bundlers provide a development server that serves your application following additional features:
+- Hot Module Replacement (HMR) (without reload we can see the changes, very helpful in state management)
+- Live Reload (reload the page on code change)
+- Fast builds (help in faster development)
+- Error overlays (show error in the form of overlay during development)
+
+## How a Bundler Works
+Suppose
+- main.js
+- imports
+- auth.js
+- which imports
+- user.js
+The bundler does:
+Step 1:
+- Read entry file
+    - main.js
+Step 2:
+- Follow every import
+    main
+     ↓
+    auth
+     ↓
+    user
+Step 3:
+- Build dependency graph
+Step 4:
+- Optimize
+    - Tree shaking
+    - Minification
+    - Code splitting
+    - Asset optimization
+Step 5:
+- Generate production files:
+    - dist/
+        - main.js
+        - vendor.js
+        - style.css
+        - assets/
+
+## Browser vs Bundler
+| Browser                        | Bundler                            |
+| ------------------------------ | ---------------------------------- |
+| Loads modules at runtime       | Analyzes modules before deployment |
+| Builds module graph            | Builds module graph                |
+| Executes ES modules            | Produces optimized build output    |
+| Doesn't remove unused code     | Performs tree shaking              |
+| Doesn't minify                 | Minifies code                      |
+| Doesn't optimize assets        | Optimizes assets                   |
+| Doesn't compile TypeScript/JSX | Compiles/transforms them           |
