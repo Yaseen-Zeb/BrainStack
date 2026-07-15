@@ -5,6 +5,7 @@
 1. **Why modules exist (the problem they solve)**
 2. **How Module and Classic Script work?**
 3. **How Modules Load and Execute**
+4. **Dynamic import()**
 
 
 
@@ -333,12 +334,13 @@ After building the module graph, the browser can execute the modules in the corr
 
 ## Module Instantiation (Linking)
 Module Instantiation concept is a little bit confusing, i would suggest you to watch video of code king on this topic, but i will try to explain it here:
-For now assume that in this just like hoisting happens in classic script, same for modules also, the browser creates an environment record and hoists thing of all scripts found in module dependency graph. (one thing to remember is that the shared imports/exports can be accessed in their respective modules without executing them) like:
+For now assume that in this just like hoisting happens in classic script, same for modules also, the browser creates an environment record and hoists all the import and export statements of all scripts found in module dependency graph. let's say there is a file that export below things so as according to hoisting variables will be accessible to another files as below without executing the code of that file:
 var = undefined
 regular function = function declaration
-class = Temporal Dead Zone
-let = Temporal Dead Zone
-const = Temporal Dead Zone
+class = `<uninitialized>` Temporal Dead Zone
+let = `<uninitialized>` Temporal Dead Zone
+const = `<uninitialized>` Temporal Dead Zone
+now the autual values to variables/functions will be assigned at the time of execution. (Same as Memory and Call Stack explanation)
 
 ## Execute Modules
 Once the module dependency graph has been built and all modules have been linked, the browser starts executing the modules.
@@ -447,3 +449,36 @@ console.log({ second });
 import { first } from './utils.js';
 console.log({first});
 ```
+
+
+
+
+
+# Dynamic import()
+Dynamic import() is a feature in JavaScript that allows you to import modules on demand, rather than all at once when the page loads. It returns a Promise that resolves to the module object.
+## Syntax
+```javascript
+// Syntax: 
+import('module-name').then(module => {
+    // Use the module
+}).catch(error => {
+    // Handle errors
+});
+// or
+const module = await import('module-name');
+```
+**Note**: Dynamic import returns a Promise, not the module itself. You need to use .then() or await to access the module.
+## Example
+```javascript
+// math.js
+export function sum(a, b) {
+    return a + b;
+}
+
+// main.js
+button.addEventListener("click", async () => {
+   const math = await import('./math.js');
+   math.sum(1,2);
+});
+```
+
