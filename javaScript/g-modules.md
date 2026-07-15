@@ -6,6 +6,7 @@
 2. **How Module and Classic Script work?**
 3. **How Modules Load and Execute**
 4. **Dynamic import()**
+5. **ES Modules vs CommonJS**
 
 
 
@@ -482,3 +483,47 @@ button.addEventListener("click", async () => {
 });
 ```
 
+
+
+
+
+# ES Modules vs CommonJS
+Many developers think: "CommonJS and ES Modules are just two different syntaxes."
+That is not true.
+They represent two completely different module systems, created at different times for different environments.
+## Differences:
+### Loading:
+**ES Modules**
+load files before executing the code or if dynamic import is used then load files during the execution of code(asynchronously).
+**CommonJS**
+load files during the execution of code(synchronously)
+**Example:**
+```javascript
+console.log("Start");
+
+const math = require("./math");
+
+console.log("End");
+
+// Es Module:
+// before evaluating the code do the import/export and load all the files.
+// and after that execute the code
+
+// CommonJS
+// load the files during the execution of code(synchronously)
+```
+### Complete Comparison
+| Feature                | CommonJS                          | ES Modules                                      |
+| ---------------------- | --------------------------------- | ----------------------------------------------- |
+| Introduced             | By Node.js                        | ECMAScript (ES6)                                |
+| Export                 | `module.exports` / `exports`      | `export`                                        |
+| Import                 | `require()`                       | `import`                                        |
+| Loading                | During execution (runtime)        | Before execution (parse/link/evaluate pipeline) |
+| `require()` / `import` | `require()` is a normal function  | `import` is special syntax                      |
+| Top-level placement    | Anywhere                          | Top level only (for static imports)             |
+| Dependency graph       | No pre-built graph                | Built before evaluation                         |
+| Live bindings          | No                                | Yes                                             |
+| Top-level `await`      | No                                | Yes                                             |
+| Tree shaking           | Difficult                         | Excellent                                       |
+| Browser support        | No (without bundlers/transpilers) | Yes                                             |
+| Modern standard        | Legacy but still supported        | Recommended                                     |
