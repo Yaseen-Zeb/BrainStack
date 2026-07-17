@@ -21,6 +21,7 @@
 16. **Currying**
 17. **Bubbling, Capturing**
 18. **What is a CDN**
+19. **Session, Cookie and JWT Token**
 
 
 
@@ -576,3 +577,88 @@ Examples:
 - Notifications
 - Messages
 As these are personalized data we can use the browser cache.
+
+
+
+
+
+# Session, Cookie and JWT Token
+This is one of the most important concepts in web development.
+## The problem
+HTTP is stateless, each request to the server is independent of the others. This means that the server cannot remember anything about previous requests from the same user, and thus cannot maintain a consistent state across multiple requests.
+Example:
+Request 1
+GET /login
+↓
+Server responds
+Later...
+Request 2
+GET /profile
+The server has no memory of Request 1 (as it already logged in).
+It treats every request like this:
+"Hello stranger."
+Even if the same browser sends thousands of requests.
+
+Now engineers came up with a solutions **Session & Cookies**.
+
+### Session & Cookies
+#### Session
+Session are created on the server side and are used to store information about the user. We can store session on:
+- Server Memory (efficient but not persistent, can be lost if server restarts)
+- Database (persistent but slow as each request will hit database)
+- Redis (persistent, fast but more costly than memory and add new layer added just for session)
+- etc.
+#### Cookies
+Cookies are small pieces of data stored on the client side (in the user's browser) and automatically sent with every request to the server. 
+The intersting things is we can set cookie from server and from client as well.
+#### How Cookies and Session works together:
+- User logs in
+- Server creates a session what it mean is stores user data in some memory or database (its upto developer how much data to store in session like user id, username, email, role, etc. and generate a unique random string as Session ID)
+```javascript
+// For example what the data the server stores in session
+"sid_abc123": {
+    "user_id": 123,
+    "username": "john_doe",
+    "email": "[EMAIL_ADDRESS]",
+    "role": "user",
+    "iat": 1678886400,
+    "exp": 1678886400
+}
+// Incase of databse it will be the same but instead of storing in memory it will be stored in database table.
+```
+- Server sends that Session ID to the client in response or sets `Set-Cookie` header and client stores it in a cookie
+- As the session stores in browser cookie, on every request, client sends the Session ID
+- Server searches for the session data using the Session ID.
+- And that how server identifies the user.
+#### Few Problems with Session Cookies
+1.  **Stateful Architecture**: It is stateful, it requires server to store session data for every active user, which can consume significant memory and storage resources. In large-scale applications with many users, this will need search for session data in memory or database or redis affecting the response time.
+2.  **Scalability Issues with Multiple Servers**: In a distributed system with multiple servers, session state needs to be synchronized across all servers, often requiring a shared session store like Redis or a database. This adds complexity and additional cost.
+
+
+### JWT Token
+JWT (JSON Web Token) use a secret key to create a signed(signature) token using some data(like user id, username, email, role, etc.), which is then sent to the client. The client can then send the token back to the server with each request, and the server can verify the token using the same secret key.
+It may seem confusing lets break it down.
+- User logs in and enters username and password
+- The server checks the database and if found.
+- Now the server creates a JWT using user `data` and `secret key`.
+- JWT does something like this (conceptually):
+- - Payload
+- - {id:25,role:"admin"} + secret_key 
+- - ↓
+- - Signature (A8f2Ksd9lP...)
+- - Then JWT combines everything.
+- - Header.Payload.Signature
+- - Example
+- - xxxxx.yyyyy.zzzzz
+- This whole string is the JWT
+- Server sends it to the browser.
+- Browser stores it in some storage like:
+    - LocalStorage
+    - SessionStorage
+    - HttpOnly Cookie
+- Now on every request, client sends the JWT to the server and server verifies it using the secret key and if valid, it sends the response if not then it will reject the request.
+#### How verification is done?
+- As we disscissed the signature is created using user data and secret key and this signature become part of the JWT Header.Payload.Signature.
+- According to the Signature definition, it checks the integrity of the data (mean if we pass the same data and secret key to it, it will generate the same signature. or if we pass the different data or secret key it will generate different signature.)
+- Now here comes the verification part. Server splits the JWT into Header, Payload and Signature and decodes the Header and Payload. And then using the Header and Payload and the secret key it generates a new signature. And if the generated signature matches with the original signature (that we got from decoding) then the JWT is valid and server sends the response. Otherwise it rejects the request.
+**Note**: JWT proccess is statless, as it does not store any thing, it does not search any thngs. it just verify the signature.
