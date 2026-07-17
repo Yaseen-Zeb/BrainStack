@@ -20,6 +20,7 @@
 15. **Debouncing vs Throttling**
 16. **Currying**
 17. **Bubbling, Capturing**
+18. **What is a CDN**
 
 
 
@@ -455,3 +456,123 @@ parent.addEventListener("click", (e) => {
 // Document → No. Continue.
 // Window → No. Continue.
 ```
+
+
+
+
+
+# What is a CDN?
+CDN (Content Delivery Network) is a network of servers distributed around the world.
+Instead of every user downloading files from your main (origin) server, users download them from the nearest CDN server.
+          Origin Server
+              |
+   ----------------------------
+   |            |            |
+CDN USA      CDN Europe    CDN Asia
+   |            |            |
+Users        Users         Users
+The goals are:
+- Faster loading
+- Lower latency
+- Less work for the origin server
+- Handle millions of users
+
+## But what if nobody ever requests the same file?
+Excellent question.
+Suppose
+1000 users
+1000 different photos
+Each photo requested exactly once.
+Then
+photo1
+photo2
+photo3
+...
+photo1000
+Every request is a cache miss.
+In this case
+The CDN provides almost no caching benefit and hit main server for every request.
+This actually happens.
+
+## Then why use a CDN?
+Because websites contain many shared static files.
+For example
+logo.png
+favicon.ico
+bootstrap.css
+main.css
+app.js
+React bundle
+Fonts
+Icons
+Images
+Videos
+And at first every visitor will download these files once.
+So first request will be cache miss, and then next time it will be cache hit.
+Which is very good for website performance.
+
+## What about Netflix or YouTube?
+You may think
+Everyone watches different videos.
+Not really.
+Trending content is watched by millions.
+Example
+New Marvel Trailer
+Millions request
+trailer.mp4
+The CDN already has it.
+Same for
+Popular YouTube videos
+The first few requests fetch it.
+After that
+CDN -> User
+### What about unpopular videos?
+Suppose someone watches
+A random video uploaded 3 years ago
+Maybe no CDN has it.
+User
+   |
+CDN
+   |
+(Cache miss)
+   |
+Origin
+The CDN downloads it.
+If nobody watches it again,
+the CDN may later remove it.
+
+## CDN caches are limited
+A CDN cannot store the entire internet.
+It has limited storage.
+So it uses cache eviction algorithms like
+Least Recently Used (LRU)
+Least Frequently Used (LFU)
+Example
+Cache Size
+100 GB
+Popular files stay.
+Old unused files are removed.
+Popular
+- logo.png
+- app.js
+- React bundle
+Removed
+- old_video.mp4
+- unused_image.png
+
+## What about dynamic data?
+Suppose you visit
+Your bank account
+The page contains
+Balance: $5,214
+Should a CDN cache it?
+No.
+Otherwise another user might receive your balance, which would be a serious security issue.
+Dynamic or personalized data is usually fetched from the origin server (or cached with very strict rules).
+Examples:
+- Bank balances
+- Shopping carts
+- User dashboards
+- Notifications
+- Messages
+As these are personalized data we can use the browser cache.
