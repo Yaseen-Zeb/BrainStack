@@ -4,6 +4,10 @@
 
 
 1. **Simple = Just the fact**
+2. **Continuous = Action in progress**
+
+
+
 
 
 # Simple
@@ -34,3 +38,34 @@
 - I will walk to school.
 - She will eat lunch.
 - They will play football.
+
+
+
+
+
+# Continuous
+
+## Present Continuous
+**Use:** Actions happening now or around now.
+**Urdu synonym:** رہا ہوں، رہی ہوں، رہے ہیں، رہا ہے، رہی ہے، رہے ہیں etc
+**Helping verbs:** Am, Is, Are
+**Examples:**
+- I am drinking coffee right now. (happening now)  
+- She is working at the hospital. (around now)
+
+## Past Continuous
+**Use:** Actions in progress in the past.
+**Urdu synonym:** رہا تھا، رہی تھی، رہے تھے etc
+**Helping verbs:** Was, Were
+**Examples:**  
+- I was drinking coffee at 8 AM yesterday.  
+- She was working when I called.
+
+## Future Continuous
+**Use:** Actions that will be in progress in the future.
+**Urdu synonym:** رہا ہوں گا، رہی ہوں گی، رہے ہوں گے etc
+**Helping verbs:** Will be
+**Examples:**  
+- I will be drinking coffee at 8 AM tomorrow.  
+- She will be working when you call.
+
