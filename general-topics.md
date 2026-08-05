@@ -22,6 +22,7 @@
 17. **Bubbling, Capturing**
 18. **What is a CDN**
 19. **Session, Cookie and JWT Token**
+20. **Compilers and Interpreters**
 
 
 
@@ -662,3 +663,44 @@ It may seem confusing lets break it down.
 - According to the Signature definition, it checks the integrity of the data (mean if we pass the same data and secret key to it, it will generate the same signature. or if we pass the different data or secret key it will generate different signature.)
 - Now here comes the verification part. Server splits the JWT into Header, Payload and Signature and decodes the Header and Payload. And then using the Header and Payload and the secret key it generates a new signature. And if the generated signature matches with the original signature (that we got from decoding) then the JWT is valid and server sends the response. Otherwise it rejects the request.
 **Note**: JWT proccess is statless, as it does not store any thing, it does not search any thngs. it just verify the signature.
+
+
+
+
+
+# Compilers and Interpreters
+Both compilers and interpreters translate source code into machine code, but they do it differently:
+
+| Feature             | Compiler                        | Interpreter                           |
+|---------------------|---------------------------------|-------------------------------------  |
+| Translation         | Entire program at once          | One statement at a time               |
+| Output              | Executable file                 | No intermediate file                  |
+| Execution           | After compilation               | During interpretation                 |
+| Memory usage        | Higher (stores whole program)   | Lower (stores one statement at a time)|
+| Execution speed     | Faster (already translated)     | Slower (translates on-the-fly)        |
+| Error detection     | Before execution                | During execution                      |
+| Suitable for        | Large, complex applications     | Small scripts, rapid development      |
+| Examples            | C, C++, Java, Go, Rust          | Python, JavaScript, Ruby, PHP         |
+
+## Compiler in short:
+A Compiler is a translator only not executor.
+It translates source code into machine code.
+It takes the entire program and translates it into machine code all at once.
+Then it creates an executable file.
+The Different Formats a Compiler Outputs
+## The Different Formats a Compiler Outputs
+Depending on the tool and the goal, a compiler might output several formats:
+### Machine Code
+This is the traditional output. It converts high-level languages like C++ directly into binary (zeros and ones) that a specific CPU architecture can execute.
+### Assembly Language
+Some compilers first turn your code into text-based low-level assembly. A separate program called an assembler then wraps it into machine code.
+### Bytecode
+Languages like Java or C# compile your text into intermediate "bytecode". This bytecode doesn't target a physical CPU; instead, it targets a Virtual Machine (like the JVM), making the format platform-independent.
+### Another High-Level Language
+A specific type of compiler, called a transpiler or source-to-source compiler, converts one human-readable format to another (for example, converting TypeScript into JavaScript).
+
+## Interpreter in short:
+A Interpreter is a translator + executor.
+It translates source code into machine code.
+It takes one statement at a time and translates it into machine code.
+Then it executes it.
