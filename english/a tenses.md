@@ -5,6 +5,7 @@
 
 1. **Simple = Just the fact**
 2. **Continuous = Action in progress**
+3. **Perfect = Completed action (completed action with connection to some time)**
 
 
 
@@ -69,3 +70,33 @@
 - I will be drinking coffee at 8 AM tomorrow.  
 - She will be working when you call.
 
+
+
+
+
+# Perfect
+
+## Present Perfect (With present time context)
+**Use:** Completed actions connected with the present time.
+**Urdu synonym:** چکا ہوں، چکی ہوں، چکے ہیں، چکا ہے، چکی ہے، چکے ہیں, چکا يا, چکی ي, چکے ي etc
+**Helping verbs:** Have, Has
+**Examples:**
+- I have drunk coffee. (completed work with present time connection)
+- She has worked at the hospital. (completed work with present time connection)
+- They have played football. (completed work with present time connection)
+
+## Past Perfect (With past time context)
+**Use:** An action completed before another past action.
+**Urdu synonym:** چکا تھا، چکی تھی، چکے تھے, چکا يا, چکی ي etc
+**Helping verbs:** Had
+**Examples:**
+- I had drunk coffee. (completed work with past time connection)
+- She had worked there for years before she quit. (completed work with past time connection)
+
+## Future Perfect (With future time context)
+**Use:** An action that will be completed before a future time.
+**Urdu synonym:** چکا ہوں گا، چکی ہوں گی، چکے ہوں گے, چکا ہوں گا, چکی ہوں گی etc
+**Helping verbs:** Will have
+**Examples:**
+- I will have drunk coffee by noon. (completed work with future time connection)
+- She will have worked there for 10 years by 2030. (completed work with future time connection)
