@@ -6,6 +6,7 @@
 1. **Simple = Just the fact**
 2. **Continuous = Action in progress**
 3. **Perfect = Completed action (completed action with connection to some time)**
+4. **Perfect Continuous = Action started in past continues (with time reference)**
 
 
 
@@ -100,3 +101,34 @@
 **Examples:**
 - I will have drunk coffee by noon. (completed work with future time connection)
 - She will have worked there for 10 years by 2030. (completed work with future time connection)
+
+
+
+
+
+# Perfect Continuous
+
+## Present Perfect Continuous (Action started in past & still continues or has just stopped. with time reference)
+**Use:** Action started in the past and continues to the present (or has just stopped).
+**Urdu synonym:** رہا ہوں، رہی ہوں، رہے ہیں، رہا ہے، رہی ہے، رہے ہیں (with time reference) etc
+**Helping verbs:** Have been, Has been
+**Examples:**
+- I have been drinking coffee for 2 hours. (started 2 hours ago, still drinking)
+- She has been working at the hospital since 2020.
+- They have been playing football for an hour.
+
+## Past Perfect Continuous (Action started in past & continues up to another point in the past. with time reference)
+**Use:** Action started in the past and continued up to another point in the past.
+**Urdu synonym:** رہا تھا، رہی تھی، رہے تھے (with time reference) etc
+**Helping verbs:** Had been
+**Examples:**
+- I had been drinking coffee for 2 hours before I left. (Still drinking when I left)
+- She had been working there for years when she finally quit.
+
+## Future Perfect Continuous (Action will start in future & will continue for some time. with time reference)
+**Use:** Action will have been happening for a duration before a future time.
+**Urdu synonym:** رہا ہوں گا، رہی ہوں گی، رہے ہوں گے (with time reference) etc
+**Helping verbs:** Will have been
+**Examples:**
+- I will have been drinking coffee for 3 hours by 1 PM.
+- She will have been working there for 10 years by 2030.
