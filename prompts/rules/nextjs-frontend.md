@@ -1,11 +1,11 @@
-# Next.js Frontend Project Rules
-
 ---
 description: Frontend architecture and coding standards for this Next.js project
 globs:
   - "src/**/*"
 alwaysApply: true
 ---
+
+# Next.js Frontend Project Rules
 
 ## Architecture
 
