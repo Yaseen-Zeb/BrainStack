@@ -4,6 +4,7 @@
 
 
 1. **Long time sentences**
+2. **Be, Been, Being**
 
 
 
@@ -50,3 +51,42 @@ You could say:
 - We haven't seen each other in a year.
 - It's been a year since we last met.
 All are talking about the same basic situation. But each sentence has a different **style**, **focus**, and **feeling**.
+
+
+
+
+
+# Be, Been, Being
+## Be
+Be is the base form used with modals or future plans.
+Use after helper words like can, will, should, must, might.
+Examples:
+- I will be there tomorrow.
+- You should be careful.
+- They might be late.
+- I want to be a doctor.
+- He needs to be honest.
+
+
+## Been
+Been is the past form used with have/has/had for completed or ongoing past time
+Use to talk about past experiences or past time connected to now.
+Examples:
+- I have been to Paris three times.
+- She had been sick for a week.
+- The letter has been sent.
+"Been" connects a past experience/state to the present or another past time.
+
+
+## Being
+Being is the -ing form used for current actions or temporary states.
+Use to show what someone is doing right now or a temporary behavior.
+Examples:
+- She is being very helpful today.
+- Being honest is important.
+- The children are being noisy.
+- He is being happy. 
+- She is being sad.
+- They are being noisy.
+- The children are being rude.
+- He is being nice to me today.
