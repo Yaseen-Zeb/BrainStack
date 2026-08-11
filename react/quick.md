@@ -56,3 +56,6 @@ Because:
 | Dev server    | ✅    | ❌       |
 | UI rendering  | ❌    | ✅       |
 | DOM updates   | ❌    | ✅       |
+
+cover these topics
+https://www.youtube.com/watch?v=uE925hp9KDk&list=PLlasXeu85E9dg5N37gDfclwzTqtoW7h5j&index=4
